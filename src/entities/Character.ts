@@ -3,6 +3,7 @@ import * as THREE from "three"
 import { sceneManager } from "../main"
 import { DEFAULT_GAME_SPEED, DEFAULT_CHARACTER_SPEED } from "../utils/constants"
 import { updateMove } from "../utils/entityUtils"
+import { Healthbar } from "../layout/Healthbar"
 
 export class Character {
     public move: THREE.Vector2
@@ -11,9 +12,11 @@ export class Character {
     public moveDirection: string
     public moveSpeed: number
     public mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
-    public health: number
+    public healthbar: Healthbar
 
     constructor() {
+        this.healthbar = new Healthbar()
+
         this.move = new THREE.Vector2(0, 0);
         this.current = new THREE.Vector2(0, 0);
         this.target = new THREE.Vector2(0, 0);

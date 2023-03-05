@@ -13,7 +13,7 @@ export class Projectile {
 
     constructor(source:THREE.Vector2, target:THREE.Vector2) {
         const geometry = new THREE.PlaneGeometry(30, 30, 1, 1);
-        const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+        const material = new THREE.MeshBasicMaterial({ color: 0xFF1493 });
         this.mesh = new THREE.Mesh(geometry, material);
         this.mesh.position.x = source.x
         this.mesh.position.y = source.y
@@ -33,6 +33,7 @@ export class Projectile {
         if(isCollision(this.mesh, character.mesh)){
             projectiles.splice(i, 1)
             removeMesh(this.mesh)
+            character.healthbar.updateHealthBar(-100)
         }
     }
 
