@@ -1,5 +1,5 @@
 import * as THREE from "three"
-import { sceneManager } from "../main"
+import { sceneManager, gameManager } from "../main"
 
 export class Healthbar {
     public maxHealth:number
@@ -9,7 +9,7 @@ export class Healthbar {
     constructor() {
         this.maxHealth = 1000
         this.health = 1000
-        const geometry = new THREE.PlaneGeometry( this.health, 10, 1, 1 );
+        const geometry = new THREE.PlaneGeometry( this.health, 30, 1, 1 );
         const material = new THREE.MeshBasicMaterial( { color: 0x7CFC00, side: THREE.DoubleSide } );
         this.mesh = new THREE.Mesh( geometry, material );
         this.mesh.position.y = - sceneManager.windowHeight/2 + 100
@@ -19,7 +19,7 @@ export class Healthbar {
     public updateHealthBar(lifeDelta: number) {
         this.health += lifeDelta
         if(this.health <= 0) {
-            //gameover
+            gameManager.onLost()
         }
         if(this.health > this.maxHealth) {
             this.health = this.maxHealth

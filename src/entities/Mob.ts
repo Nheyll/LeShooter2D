@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { Vector2 } from 'three';
-import { sceneManager, character } from '../main';
+import { sceneManager, character, gameManager } from '../main';
 import { DEFAULT_GAME_SPEED, DEFAULT_MOB_SPEED, MOB_ATTACK_SPEED } from '../utils/constants';
 import { Projectile } from './Projectile';
 
@@ -21,9 +21,11 @@ export class Mob {
         setInterval(() => {
             this.updateMove()
         }, 1000);
-        setInterval(() => {
-            this.fireProjectile()
-        }, MOB_ATTACK_SPEED);
+
+        setTimeout(() => {
+            this.startFiring()
+        }, 3000)
+
     }
 
     public updateMove(){
@@ -57,8 +59,17 @@ export class Mob {
         this.mesh.position.x += this.move.x
         this.mesh.position.y += this.move.y
     }
+    
+    public startFiring() {
+        setInterval(() => {
+            this.fireProjectile()
+        }, MOB_ATTACK_SPEED);
+    }
 
     public fireProjectile() {
-        new Projectile(new Vector2(this.mesh.position.x, this.mesh.position.y), character.current)
+        if(gameManager.isGameRunning)
+            new Projectile(new Vector2(this.mesh.position.x, this.mesh.position.y), character.current)
     }
+
+
 }
