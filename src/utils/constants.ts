@@ -8,6 +8,8 @@ export const CHARACTER_ATTACK_SPEED = 2000
 export const CHARACTER_ATTACK_WINDUP = 0.2
 export const CHARACTER_DAMAGE = 100
 export const CHARACTER_AA_SPEED = 20 // Velocity of the AA
+export const PROJECTILE_DAMAGE = 1;
+export const BASE_MOB_HEALTH = 2;
 
 
 export const canvasElement = document.querySelector(".webgl")

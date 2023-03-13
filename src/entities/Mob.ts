@@ -1,17 +1,23 @@
 import * as THREE from 'three';
 import { Vector2 } from 'three';
 import { sceneManager, character, gameManager, mobs } from '../main';
-import { DEFAULT_GAME_SPEED, DEFAULT_MOB_SPEED, MOB_ATTACK_SPEED } from '../utils/constants';
+import { DEFAULT_GAME_SPEED, DEFAULT_MOB_SPEED, MOB_ATTACK_SPEED, BASE_MOB_HEALTH } from '../utils/constants';
 import { Projectile } from './Projectile';
+import { getNextId } from '../utils/entityUtils';
 
 export class Mob {
-    public mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
-    public move: THREE.Vector2
-    public moveSpeed: number
+    id: number;
+    health: number;
+    isFiring: boolean;
+    public mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>;
+    public move: THREE.Vector2;
+    public moveSpeed: number;
 
     constructor(position: THREE.Vector2) {
         const geometry = new THREE.PlaneGeometry(100, 100, 1, 1);
         const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+        this.id = getNextId();
+        this.health = BASE_MOB_HEALTH;
         this.mesh = new THREE.Mesh(geometry, material);
         this.mesh.position.x = position.x
         this.mesh.position.y = position.y
@@ -21,6 +27,8 @@ export class Mob {
         setInterval(() => {
             this.updateMoveRandomly()
         }, 1000);
+
+        this.isFiring = true;
         
         setTimeout(() => {
             this.startFiring()
@@ -67,9 +75,23 @@ export class Mob {
     }
 
     public fireProjectile() {
-        if(gameManager.isGameRunning)
+        if(gameManager.isGameRunning && this.isFiring)
             new Projectile(new Vector2(this.mesh.position.x, this.mesh.position.y), character.current)
     }
 
+    public receiveProjectile(projectileDamage: number) {
+        this.health = this.health - projectileDamage;
+        console.log(this.health);
+        if(this.health <= 0) {
+        this.killMob();
+        }
+    }
 
+    // Il faudra faire un truc plus propre
+    killMob() {
+        mobs.slice(this.id);
+        this.mesh.position.x = -99999
+        this.mesh.position.y = -99999
+        this.isFiring = false;
+    }
 }

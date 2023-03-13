@@ -18,18 +18,18 @@ export class GameManager {
         winMenuElement.classList.toggle('hide-element', true)
         this.isGameRunning = true
         this.audio.pause()
-        this.audio = new Audio('../assets/audio/jul.mp3');
-        this.audio.play();
+        //this.audio = new Audio('../assets/audio/jul.mp3');
+        //this.audio.play();
     }
 
     public onLost() {
-        this.isGameRunning = false
-        this.resetGame()
-        canvasElement.classList.toggle('hide-element', true)
-        lostMenuElement.classList.toggle('hide-element', false)
-        this.audio.pause()
-        this.audio = new Audio('../assets/audio/wejdene.mp3');
-        this.audio.play();
+        //this.isGameRunning = false
+        //this.resetGame()
+        //canvasElement.classList.toggle('hide-element', true)
+        //lostMenuElement.classList.toggle('hide-element', false)
+        //this.audio.pause()
+        //this.audio = new Audio('../assets/audio/wejdene.mp3');
+        //this.audio.play();
     }
 
     public resetGame() {

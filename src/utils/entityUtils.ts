@@ -1,6 +1,7 @@
 import * as THREE from "three"
 import { sceneManager } from "../main";
 
+export var nextId = 0;
 
 export function updateMove(source: THREE.Vector2, target: THREE.Vector2, move: THREE.Vector2, moveSpeed: number) {
     let dist = new THREE.Vector2(source.x-target.x, source.y-target.y);
@@ -63,3 +64,8 @@ export function isOutOfBound(mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBas
     mesh.position.y - size / 2 > sceneManager.camera.top ||
     mesh.position.y + size / 2 < sceneManager.camera.bottom
 }
+
+export function getNextId() {
+    nextId++;
+    return nextId;
+    }
