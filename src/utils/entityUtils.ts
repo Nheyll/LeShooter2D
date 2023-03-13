@@ -46,6 +46,16 @@ export function isCollision(object1: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshB
     return minX1 <= maxX2 && maxX1 >= minX2 && minY1 <= maxY2 && maxY1 >= minY2
 } 
 
+export function isClickOnMesh(target: THREE.Vector2, mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>) {
+    let minX1 = mesh.position.x - (mesh.geometry.parameters.width/2);
+    let maxX1 = mesh.position.x + (mesh.geometry.parameters.width/2);
+    let minY1 = mesh.position.y - (mesh.geometry.parameters.height/2);
+    let maxY1 = mesh.position.y + (mesh.geometry.parameters.height/2);
+    if(target.x < maxX1 && target.x > minX1 && target.y < maxY1 && target.y > minY1) {
+        return true
+    }
+}
+
 export function isOutOfBound(mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>) {
     let size = mesh.geometry.parameters.width
     return mesh.position.x - size / 2 > sceneManager.camera.right ||

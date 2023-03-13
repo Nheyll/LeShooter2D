@@ -3,5 +3,6 @@ export enum Direction {
     NE = 'North-East',
     SE = 'South-East',
     SW = 'South-West',
-    NOT_MOVING = 'Stopped'
+    NOT_MOVING = 'Stopped',
+    AA = 'Auto-Attacking'
 };

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { Vector2 } from 'three';
-import { sceneManager, character, gameManager } from '../main';
+import { sceneManager, character, gameManager, mobs } from '../main';
 import { DEFAULT_GAME_SPEED, DEFAULT_MOB_SPEED, MOB_ATTACK_SPEED } from '../utils/constants';
 import { Projectile } from './Projectile';
 
@@ -19,16 +19,16 @@ export class Mob {
         this.moveSpeed = DEFAULT_MOB_SPEED + DEFAULT_GAME_SPEED
         sceneManager.scene.add(this.mesh);
         setInterval(() => {
-            this.updateMove()
+            this.updateMoveRandomly()
         }, 1000);
-
+        
         setTimeout(() => {
             this.startFiring()
         }, 3000)
-
+        mobs.push(this)
     }
 
-    public updateMove(){
+    public updateMoveRandomly(){
         if(this.mesh.position.x > sceneManager.windowWidth / 2 -100) {
             this.move = new THREE.Vector2(-1, 0);
         } else if (this.mesh.position.x < -sceneManager.windowWidth / 2 + 100) {

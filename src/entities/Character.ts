@@ -1,9 +1,11 @@
 import { Direction } from "../utils/enums"
 import * as THREE from "three"
-import { sceneManager } from "../main"
+import { autoAttacks, mobs, sceneManager } from "../main"
 import { DEFAULT_GAME_SPEED, DEFAULT_CHARACTER_SPEED } from "../utils/constants"
-import { updateMove } from "../utils/entityUtils"
+import { isClickOnMesh, updateMove } from "../utils/entityUtils"
 import { Healthbar } from "../layout/Healthbar"
+import { Mob } from "./Mob"
+import { AutoAttack } from "./Autoattack"
 
 export class Character {
     public move: THREE.Vector2
@@ -13,10 +15,10 @@ export class Character {
     public moveSpeed: number
     public mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
     public healthbar: Healthbar
+    public isAutoAttacking: boolean
 
     constructor() {
         this.healthbar = new Healthbar()
-
         this.move = new THREE.Vector2(0, 0);
         this.current = new THREE.Vector2(0, 0);
         this.target = new THREE.Vector2(0, 0);
@@ -25,14 +27,37 @@ export class Character {
         const geometry = new THREE.PlaneGeometry( 100, 100, 1, 1 );
         const material = new THREE.MeshBasicMaterial( { color: 0xff0000, side: THREE.DoubleSide } );
         this.mesh = new THREE.Mesh( geometry, material );
+        this.isAutoAttacking = false
         sceneManager.scene.add( this.mesh );
         window.addEventListener('contextmenu', (event) => {
-            this.onMove(event);
+            this.onRightClick(event);
         });
     }
 
-    public onMove(event: MouseEvent) {
+    public onRightClick(event: MouseEvent) {
         this.target.set(event.clientX - sceneManager.windowWidth/2, -event.clientY + sceneManager.windowHeight/2);
+        let mob: Mob = null
+        for(let i = 0; i < mobs.length; i++) {
+            if(isClickOnMesh(this.target, mobs[i].mesh)){
+                mob = mobs[i]
+                break
+            }
+        }
+        if(mob == null) {
+            this.onMove()
+        } else {
+            this.moveDirection = Direction.AA
+            this.move.set(0,0)
+            this.onAutoAttack(mob)
+        }
+    }
+
+    public onAutoAttack(mob: Mob) {
+        let autoAttack = new AutoAttack(mob, this.current)
+        autoAttacks.push(autoAttack)
+    }
+
+    public onMove() {
         this.setDirection();
         updateMove(new THREE.Vector2(this.mesh.position.x, this.mesh.position.y), this.target, this.move, this.moveSpeed)
     }
