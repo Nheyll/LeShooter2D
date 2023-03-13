@@ -7,7 +7,7 @@ export const MOB_ATTACK_SPEED = 1000 //ms
 export const CHARACTER_ATTACK_SPEED = 2000
 export const CHARACTER_ATTACK_WINDUP = 0.2
 export const CHARACTER_DAMAGE = 100
-export const CHARACTER_AA_SPEED = 4
+export const CHARACTER_AA_SPEED = 20 // Velocity of the AA
 
 
 export const canvasElement = document.querySelector(".webgl")

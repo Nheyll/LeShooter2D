@@ -1,7 +1,7 @@
 import { Direction } from "../utils/enums"
 import * as THREE from "three"
 import { autoAttacks, mobs, sceneManager } from "../main"
-import { DEFAULT_GAME_SPEED, DEFAULT_CHARACTER_SPEED } from "../utils/constants"
+import { DEFAULT_GAME_SPEED, DEFAULT_CHARACTER_SPEED, CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP } from "../utils/constants"
 import { isClickOnMesh, updateMove } from "../utils/entityUtils"
 import { Healthbar } from "../layout/Healthbar"
 import { Mob } from "./Mob"
@@ -53,11 +53,30 @@ export class Character {
     }
 
     public onAutoAttack(mob: Mob) {
+        this.isAutoAttacking = true
+        let windup = true
+        setTimeout(() => {
+            if(windup)
+                this.fireAutoAttack(mob)
+        }, CHARACTER_ATTACK_SPEED * CHARACTER_ATTACK_WINDUP)
+        let count = 0;
+        const intervalId = setInterval(() => {
+            count++
+            if(!this.isAutoAttacking)
+                windup = false
+            if (count >= CHARACTER_ATTACK_SPEED * CHARACTER_ATTACK_WINDUP / 20) {
+                clearInterval(intervalId)
+            }
+        }, 20);
+    }
+
+    public fireAutoAttack(mob: Mob) {
         let autoAttack = new AutoAttack(mob, this.current)
         autoAttacks.push(autoAttack)
     }
 
     public onMove() {
+        this.isAutoAttacking = false
         this.setDirection();
         updateMove(new THREE.Vector2(this.mesh.position.x, this.mesh.position.y), this.target, this.move, this.moveSpeed)
     }
