@@ -16,6 +16,7 @@ export class Character {
     public mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
     public healthbar: Healthbar
     public isAutoAttacking: boolean
+    public isAutoAttackCooldown: boolean
 
     constructor() {
         this.healthbar = new Healthbar()
@@ -28,6 +29,7 @@ export class Character {
         const material = new THREE.MeshBasicMaterial( { color: 0xff0000, side: THREE.DoubleSide } );
         this.mesh = new THREE.Mesh( geometry, material );
         this.isAutoAttacking = false
+        this.isAutoAttackCooldown = false
         sceneManager.scene.add( this.mesh );
         window.addEventListener('contextmenu', (event) => {
             this.onRightClick(event);
@@ -53,26 +55,64 @@ export class Character {
     }
 
     public onAutoAttack(mob: Mob) {
+        this.moveDirection = Direction.AA
+        this.move.set(0,0)
         this.isAutoAttacking = true
+        
+        if(!this.isAutoAttackCooldown) {
+            this.startAutoAttack(mob)
+        } else {
+            const intervalId = setInterval(() => {
+                if(!this.isAutoAttacking){
+                    clearInterval(intervalId)
+                }
+                if(!this.isAutoAttackCooldown){
+                    this.startAutoAttack(mob)
+                    clearInterval(intervalId)
+                }
+            }, 10);            
+        }
+    }
+
+    public startAutoAttack(mob: Mob) {
         let windup = true
-        setTimeout(() => {
-            if(windup)
-                this.fireAutoAttack(mob)
-        }, CHARACTER_ATTACK_SPEED * CHARACTER_ATTACK_WINDUP)
         let count = 0;
         const intervalId = setInterval(() => {
             count++
             if(!this.isAutoAttacking)
                 windup = false
-            if (count >= CHARACTER_ATTACK_SPEED * CHARACTER_ATTACK_WINDUP / 20) {
+            if (count >= CHARACTER_ATTACK_WINDUP / 20) {
                 clearInterval(intervalId)
             }
         }, 20);
+
+        setTimeout(() => {
+            if(windup)
+                this.fireAutoAttack(mob)
+        }, CHARACTER_ATTACK_WINDUP)
     }
 
     public fireAutoAttack(mob: Mob) {
         let autoAttack = new AutoAttack(mob, this.current)
         autoAttacks.push(autoAttack)
+        this.isAutoAttackCooldown = true
+
+        let stillAutoAttacking = true
+        let count = 0;
+        const intervalId = setInterval(() => {
+            count++
+            if(!this.isAutoAttacking)
+                stillAutoAttacking = false
+            if (count >= CHARACTER_ATTACK_SPEED / 20) {
+                clearInterval(intervalId)
+            }
+        }, 20);
+
+        setTimeout(() => {
+            this.isAutoAttackCooldown = false
+            if(stillAutoAttacking)
+                this.onAutoAttack(mob)
+        }, CHARACTER_ATTACK_SPEED)
     }
 
     public onMove() {
