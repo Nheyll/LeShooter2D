@@ -1,7 +1,7 @@
 import { Direction } from "../utils/enums"
 import * as THREE from "three"
 import { autoAttacks, mobs, sceneManager } from "../main"
-import { DEFAULT_GAME_SPEED, DEFAULT_CHARACTER_SPEED, CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP } from "../utils/constants"
+import { DEFAULT_GAME_SPEED, DEFAULT_CHARACTER_SPEED, CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP, PROJECTILE_DAMAGE } from "../utils/constants"
 import { isClickOnMesh, updateMove } from "../utils/entityUtils"
 import { Healthbar } from "../layout/Healthbar"
 import { Mob } from "./Mob"
@@ -42,6 +42,7 @@ export class Character {
         for(let i = 0; i < mobs.length; i++) {
             if(isClickOnMesh(this.target, mobs[i].mesh)){
                 mob = mobs[i]
+                mob.receiveProjectile(PROJECTILE_DAMAGE);
                 break
             }
         }
