@@ -35,14 +35,11 @@ export class Character {
     }
 
     public onRightClick(event: MouseEvent) {
-    console.log('onrightclick')
         this.target.set(event.clientX - sceneManager.windowWidth/2, -event.clientY + sceneManager.windowHeight/2);
         let mob: Mob = null
         for(let i = 0; i < mobs.length; i++) {
-    console.log('mobs', mobs)
             if(isClickOnMesh(this.target, mobs[i].mesh)){
                 mob = mobs[i]
-                console.log(mob)
                 mob.receiveProjectile(PROJECTILE_DAMAGE);
                 break
             }
