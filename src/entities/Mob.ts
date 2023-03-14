@@ -4,6 +4,7 @@ import { sceneManager, character, gameManager, mobs } from '../main';
 import { DEFAULT_GAME_SPEED, DEFAULT_MOB_SPEED, MOB_ATTACK_SPEED, BASE_MOB_HEALTH } from '../utils/constants';
 import { Projectile } from './Projectile';
 import { getNextId, removeMesh } from '../utils/entityUtils';
+import { GameStateEntity, GameState } from '../GameStateEntity';
 
 export class Mob {
     id: number;
@@ -13,7 +14,7 @@ export class Mob {
     public move: THREE.Vector2;
     public moveSpeed: number;
 
-    constructor(position: THREE.Vector2) {
+    constructor(position: THREE.Vector2, private gameStateEntity: GameStateEntity) {
         this.id = getNextId();
         this.health = BASE_MOB_HEALTH;
 
@@ -91,5 +92,9 @@ export class Mob {
         mobs.splice(index, 1);
         removeMesh(this.mesh);
         clearInterval(this.firingIntervalTimer);
+
+        if(mobs.length < 1) {
+            this.gameStateEntity.subjectGameState.next(GameState.WIN);
+        }
     }
 }

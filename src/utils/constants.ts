@@ -18,3 +18,8 @@ export const retryButtonElement = document.querySelector(".retry-button")
 export const startMenuElement = document.querySelector(".menu-start")
 export const lostMenuElement = document.querySelector(".menu-lost")
 export const winMenuElement = document.querySelector(".menu-win")
+
+export const visualElementList = [canvasElement,
+                                  startMenuElement,
+                                  winMenuElement,
+                                  lostMenuElement]
