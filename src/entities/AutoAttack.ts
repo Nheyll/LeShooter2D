@@ -1,21 +1,17 @@
 import THREE = require("three");
 import { autoAttacks, sceneManager } from "../main";
-import { isCollision, removeMesh, updateMove } from "../utils/entityUtils";
+import { buildMesh, isCollision, removeMesh, updateMove } from "../utils/entityUtils";
 import { Mob } from "./Mob";
 import { CHARACTER_AA_SPEED, DEFAULT_GAME_SPEED } from "../utils/constants"
+import { MeshEntity } from "../MeshEntity";
 
-export class AutoAttack {
-    public mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
+export class AutoAttack extends MeshEntity {
     public target: Mob
     public move: THREE.Vector2
     public moveSpeed: number
 
     constructor(mob: Mob, source:THREE.Vector2) {
-        const geometry = new THREE.PlaneGeometry(30, 30, 1, 1);
-        const material = new THREE.MeshBasicMaterial({ color: 0x9933FF });
-        this.mesh = new THREE.Mesh(geometry, material);
-        this.mesh.position.x = source.x
-        this.mesh.position.y = source.y
+        super(buildMesh(30,30,"0x9933FF", new THREE.Vector2(source.x, source.y)))
         this.target = mob
         this.moveSpeed = CHARACTER_AA_SPEED * DEFAULT_GAME_SPEED
         this.move = new THREE.Vector2(0,0)

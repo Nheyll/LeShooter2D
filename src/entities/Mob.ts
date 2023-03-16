@@ -1,20 +1,17 @@
 import * as THREE from 'three';
 import { Vector2 } from 'three';
 import { sceneManager, character, gameManager, mobs } from '../main';
+import { MeshEntity } from '../MeshEntity';
 import { DEFAULT_GAME_SPEED, DEFAULT_MOB_SPEED, MOB_ATTACK_SPEED } from '../utils/constants';
+import { buildMesh } from '../utils/entityUtils';
 import { Projectile } from './Projectile';
 
-export class Mob {
-    public mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
+export class Mob extends MeshEntity {
     public move: THREE.Vector2
     public moveSpeed: number
 
     constructor(position: THREE.Vector2) {
-        const geometry = new THREE.PlaneGeometry(100, 100, 1, 1);
-        const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-        this.mesh = new THREE.Mesh(geometry, material);
-        this.mesh.position.x = position.x
-        this.mesh.position.y = position.y
+        super(buildMesh(100, 100, "0xffff00", new THREE.Vector2(position.x, position.x)))
         this.move = new THREE.Vector2(0,0)
         this.moveSpeed = DEFAULT_MOB_SPEED + DEFAULT_GAME_SPEED
         sceneManager.scene.add(this.mesh);

@@ -63,3 +63,13 @@ export function isOutOfBound(mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBas
     mesh.position.y - size / 2 > sceneManager.camera.top ||
     mesh.position.y + size / 2 < sceneManager.camera.bottom
 }
+
+export function buildMesh(width: number, height: number, colorString: string, position: THREE.Vector2) {
+    const colorThree = new THREE.Color(parseInt(colorString, 16))
+    const geometry = new THREE.PlaneGeometry( width, height, 1, 1 );
+    const material = new THREE.MeshBasicMaterial({color: colorThree});
+    const mesh = new THREE.Mesh( geometry, material );
+    mesh.position.x = position.x
+    mesh.position.y = position.y
+    return mesh
+}

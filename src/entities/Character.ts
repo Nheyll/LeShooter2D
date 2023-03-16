@@ -2,12 +2,14 @@ import { Direction } from "../utils/enums"
 import * as THREE from "three"
 import { autoAttacks, mobs, sceneManager } from "../main"
 import { DEFAULT_GAME_SPEED, DEFAULT_CHARACTER_SPEED, CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP } from "../utils/constants"
-import { isClickOnMesh, updateMove } from "../utils/entityUtils"
+import { buildMesh, isClickOnMesh, updateMove } from "../utils/entityUtils"
 import { Healthbar } from "../layout/Healthbar"
 import { Mob } from "./Mob"
 import { AutoAttack } from "./Autoattack"
+import { MeshEntity } from "../MeshEntity"
+import { Vector2 } from "three"
 
-export class Character {
+export class Character extends MeshEntity {
     public move: THREE.Vector2
     public current: THREE.Vector2
     public target: THREE.Vector2
@@ -19,15 +21,13 @@ export class Character {
     public isAutoAttackCooldown: boolean
 
     constructor() {
+        super(buildMesh(100, 100, "0xff0000", new Vector2(-100, -100)))
         this.healthbar = new Healthbar()
         this.move = new THREE.Vector2(0, 0);
         this.current = new THREE.Vector2(0, 0);
         this.target = new THREE.Vector2(0, 0);
         this.moveDirection = Direction.NOT_MOVING;
         this.moveSpeed = DEFAULT_GAME_SPEED * DEFAULT_CHARACTER_SPEED
-        const geometry = new THREE.PlaneGeometry( 100, 100, 1, 1 );
-        const material = new THREE.MeshBasicMaterial( { color: 0xff0000, side: THREE.DoubleSide } );
-        this.mesh = new THREE.Mesh( geometry, material );
         this.isAutoAttacking = false
         this.isAutoAttackCooldown = false
         sceneManager.scene.add( this.mesh );

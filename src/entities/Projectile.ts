@@ -1,22 +1,18 @@
 import { Vector2 } from 'three';
 import THREE = require('three');
 import { sceneManager, projectiles } from '../main';
+import { MeshEntity } from '../MeshEntity';
 import { DEFAULT_GAME_SPEED, DEFAULT_PROJECTILE_SPEED } from '../utils/constants';
-import { isCollision, updateMove, removeMesh, isOutOfBound } from '../utils/entityUtils';
+import { isCollision, updateMove, removeMesh, isOutOfBound, buildMesh } from '../utils/entityUtils';
 import { Character } from './Character';
 
 
-export class Projectile {
-    public mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
+export class Projectile extends MeshEntity {
     public move: THREE.Vector2
     public moveSpeed: number
 
     constructor(source:THREE.Vector2, target:THREE.Vector2) {
-        const geometry = new THREE.PlaneGeometry(30, 30, 1, 1);
-        const material = new THREE.MeshBasicMaterial({ color: 0xFF1493 });
-        this.mesh = new THREE.Mesh(geometry, material);
-        this.mesh.position.x = source.x
-        this.mesh.position.y = source.y
+        super(buildMesh(30, 30, "0xFF1493", new THREE.Vector2(source.x, source.y)))
         this.moveSpeed = DEFAULT_PROJECTILE_SPEED + DEFAULT_GAME_SPEED
         this.move = new Vector2()
         updateMove(new THREE.Vector2(this.mesh.position.x, this.mesh.position.y), target, this.move, this.moveSpeed)
