@@ -2,7 +2,7 @@ import THREE = require("three");
 import { autoAttacks, sceneManager } from "../main";
 import { buildMesh, isCollision, removeMesh, updateMove } from "../utils/entityUtils";
 import { Mob } from "./Mob";
-import { CHARACTER_AA_SPEED, DEFAULT_GAME_SPEED } from "../utils/constants"
+import { CHARACTER_AA_SPEED, GAME_SPEED } from "../utils/constants"
 import { MeshEntity } from "../MeshEntity";
 
 export class AutoAttack extends MeshEntity {
@@ -13,7 +13,7 @@ export class AutoAttack extends MeshEntity {
     constructor(mob: Mob, source:THREE.Vector2) {
         super(buildMesh(30,30,"0x9933FF", new THREE.Vector2(source.x, source.y)))
         this.target = mob
-        this.moveSpeed = CHARACTER_AA_SPEED * DEFAULT_GAME_SPEED
+        this.moveSpeed = CHARACTER_AA_SPEED * GAME_SPEED
         this.move = new THREE.Vector2(0,0)
         sceneManager.scene.add(this.mesh); 
     }

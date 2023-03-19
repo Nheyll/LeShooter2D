@@ -1,7 +1,7 @@
 import { Direction } from "../utils/enums"
 import * as THREE from "three"
 import { autoAttacks, mobs, sceneManager } from "../main"
-import { DEFAULT_GAME_SPEED, DEFAULT_CHARACTER_SPEED, CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP, CHARACTER_DAMAGE } from "../utils/constants"
+import { GAME_SPEED, CHARACTER_SPEED, CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP, CHARACTER_DAMAGE } from "../utils/constants"
 import { buildMesh, isClickOnMesh, updateMove } from "../utils/entityUtils"
 import { Healthbar } from "../layout/Healthbar"
 import { Mob } from "./Mob"
@@ -28,7 +28,7 @@ export class Character extends MeshEntity {
         this.current = new THREE.Vector2(0, 0);
         this.target = new THREE.Vector2(0, 0);
         this.moveDirection = Direction.NOT_MOVING;
-        this.moveSpeed = DEFAULT_GAME_SPEED * DEFAULT_CHARACTER_SPEED
+        this.moveSpeed = GAME_SPEED * CHARACTER_SPEED
         this.isAutoAttacking = false
         this.isAutoAttackCooldown = false
         sceneManager.scene.add( this.mesh );

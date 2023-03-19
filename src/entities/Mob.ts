@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { Vector2 } from 'three';
 import { sceneManager, character, gameManager, mobs } from '../main';
 import { MeshEntity } from '../MeshEntity';
-import { CHARACTER_DAMAGE, DEFAULT_GAME_SPEED, DEFAULT_MOB_SPEED, MOB_ATTACK_SPEED, MOB_MAX_HEALTH } from '../utils/constants';
+import { CHARACTER_DAMAGE, GAME_SPEED, MOB_SPEED, MOB_ATTACK_SPEED, MOB_MAX_HEALTH, MOB_SIZE, HEALTHBAR_COLOR } from '../utils/constants';
 import { buildMesh, removeMesh } from '../utils/entityUtils';
 import { Projectile } from './Projectile';
 
@@ -11,21 +11,24 @@ export class Mob extends MeshEntity {
     public moveSpeed: number
     public maxHealth: number
     public health: number
+    public healthbar: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
 
     constructor(position: THREE.Vector2) {
-        super(buildMesh(100, 100, "0xffff00", new THREE.Vector2(position.x, position.x)))
+        super(buildMesh(MOB_SIZE, MOB_SIZE, "0xffff00", new THREE.Vector2(position.x, position.y)))
         this.maxHealth = MOB_MAX_HEALTH
         this.health = this.maxHealth
+        this.healthbar = buildMesh(MOB_SIZE, 10, HEALTHBAR_COLOR, new THREE.Vector2(position.x, position.y + 70))
         this.move = new THREE.Vector2(0,0)
-        this.moveSpeed = DEFAULT_MOB_SPEED + DEFAULT_GAME_SPEED
+        this.moveSpeed = MOB_SPEED + GAME_SPEED
         sceneManager.scene.add(this.mesh);
+        sceneManager.scene.add(this.healthbar);
         setInterval(() => {
             this.updateMoveRandomly()
         }, 1000);
         
         setTimeout(() => {
             this.startFiring()
-        }, 3000)
+        }, 300000)
         mobs.push(this)
     }
 
@@ -59,6 +62,8 @@ export class Mob extends MeshEntity {
     public updatePosition() {
         this.mesh.position.x += this.move.x
         this.mesh.position.y += this.move.y
+        this.healthbar.position.x += this.move.x
+        this.healthbar.position.y += this.move.y
     }
     
     public startFiring() {
@@ -74,8 +79,10 @@ export class Mob extends MeshEntity {
 
     public takeDamage() {
         this.health -= CHARACTER_DAMAGE
+        this.healthbar.scale.x = this.health / this.maxHealth
         if(this.health <= 0) {
             removeMesh(this.mesh)
+            removeMesh(this.healthbar)
             mobs.splice(mobs.indexOf(this), 1)
         }
     }

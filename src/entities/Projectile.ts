@@ -2,7 +2,7 @@ import { Vector2 } from 'three';
 import THREE = require('three');
 import { sceneManager, projectiles } from '../main';
 import { MeshEntity } from '../MeshEntity';
-import { DEFAULT_GAME_SPEED, DEFAULT_PROJECTILE_SPEED } from '../utils/constants';
+import { GAME_SPEED, PROJECTILE_SPEED } from '../utils/constants';
 import { isCollision, updateMove, removeMesh, isOutOfBound, buildMesh } from '../utils/entityUtils';
 import { Character } from './Character';
 
@@ -13,7 +13,7 @@ export class Projectile extends MeshEntity {
 
     constructor(source:THREE.Vector2, target:THREE.Vector2) {
         super(buildMesh(30, 30, "0xFF1493", new THREE.Vector2(source.x, source.y)))
-        this.moveSpeed = DEFAULT_PROJECTILE_SPEED + DEFAULT_GAME_SPEED
+        this.moveSpeed = PROJECTILE_SPEED + GAME_SPEED
         this.move = new Vector2()
         updateMove(new THREE.Vector2(this.mesh.position.x, this.mesh.position.y), target, this.move, this.moveSpeed)
         sceneManager.scene.add(this.mesh);
