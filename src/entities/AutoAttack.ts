@@ -22,6 +22,7 @@ export class AutoAttack extends MeshEntity {
         if(isCollision(this.mesh, this.target.mesh)){
             autoAttacks.splice(i, 1)
             removeMesh(this.mesh)
+            this.target.takeDamage()
         }
     }
 

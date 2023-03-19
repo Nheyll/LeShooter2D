@@ -2,16 +2,20 @@ import * as THREE from 'three';
 import { Vector2 } from 'three';
 import { sceneManager, character, gameManager, mobs } from '../main';
 import { MeshEntity } from '../MeshEntity';
-import { DEFAULT_GAME_SPEED, DEFAULT_MOB_SPEED, MOB_ATTACK_SPEED } from '../utils/constants';
-import { buildMesh } from '../utils/entityUtils';
+import { CHARACTER_DAMAGE, DEFAULT_GAME_SPEED, DEFAULT_MOB_SPEED, MOB_ATTACK_SPEED, MOB_MAX_HEALTH } from '../utils/constants';
+import { buildMesh, removeMesh } from '../utils/entityUtils';
 import { Projectile } from './Projectile';
 
 export class Mob extends MeshEntity {
     public move: THREE.Vector2
     public moveSpeed: number
+    public maxHealth: number
+    public health: number
 
     constructor(position: THREE.Vector2) {
         super(buildMesh(100, 100, "0xffff00", new THREE.Vector2(position.x, position.x)))
+        this.maxHealth = MOB_MAX_HEALTH
+        this.health = this.maxHealth
         this.move = new THREE.Vector2(0,0)
         this.moveSpeed = DEFAULT_MOB_SPEED + DEFAULT_GAME_SPEED
         sceneManager.scene.add(this.mesh);
@@ -68,5 +72,11 @@ export class Mob extends MeshEntity {
             new Projectile(new Vector2(this.mesh.position.x, this.mesh.position.y), character.current)
     }
 
-
+    public takeDamage() {
+        this.health -= CHARACTER_DAMAGE
+        if(this.health <= 0) {
+            removeMesh(this.mesh)
+            mobs.splice(mobs.indexOf(this), 1)
+        }
+    }
 }

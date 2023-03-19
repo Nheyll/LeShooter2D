@@ -12,8 +12,9 @@ export let mobs: Mob[] = []
 export let autoAttacks: AutoAttack[] = []
 export const sceneManager = new SceneManager()
 export const gameManager = new GameManager()
-const mob1 = new Mob(new THREE.Vector2(300,300))
-const mob2 = new Mob(new THREE.Vector2(100,100))
+new Mob(new THREE.Vector2(300,300))
+new Mob(new THREE.Vector2(100,100))
+new Mob(new THREE.Vector2(500,500))
 export const character = new Character()
 
 function animate() {

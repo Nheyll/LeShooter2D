@@ -4,10 +4,13 @@ export const DEFAULT_MOB_SPEED = 1;
 export const DEFAULT_PROJECTILE_SPEED = 4;
 
 export const MOB_ATTACK_SPEED = 1000 //ms
-export const CHARACTER_ATTACK_SPEED = 1000
-export const CHARACTER_ATTACK_WINDUP = 500
-export const CHARACTER_DAMAGE = 100
+export const MOB_MAX_HEALTH = 1000
+
+export const CHARACTER_ATTACK_SPEED = 400
+export const CHARACTER_ATTACK_WINDUP = 200
+export const CHARACTER_DAMAGE = 200
 export const CHARACTER_AA_SPEED = 20 // Velocity of the AA
+export const CHARACTER_MAX_HEALTH = 1000
 
 
 export const canvasElement = document.querySelector(".webgl")
