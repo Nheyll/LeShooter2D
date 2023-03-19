@@ -12,6 +12,8 @@ export class Mob extends MeshEntity {
     public maxHealth: number
     public health: number
     public healthbar: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
+    public fireInterval : NodeJS.Timer
+    public moveInterval : NodeJS.Timer
 
     constructor(position: THREE.Vector2) {
         super(buildMesh(MOB_SIZE, MOB_SIZE, "0xffff00", new THREE.Vector2(position.x, position.y)))
@@ -22,13 +24,14 @@ export class Mob extends MeshEntity {
         this.moveSpeed = MOB_SPEED + GAME_SPEED
         sceneManager.scene.add(this.mesh);
         sceneManager.scene.add(this.healthbar);
-        setInterval(() => {
+
+        this.moveInterval = setInterval(() => {
             this.updateMoveRandomly()
         }, 1000);
         
         setTimeout(() => {
             this.startFiring()
-        }, 300000)
+        }, 3000)
         mobs.push(this)
     }
 
@@ -67,7 +70,7 @@ export class Mob extends MeshEntity {
     }
     
     public startFiring() {
-        setInterval(() => {
+        this.fireInterval = setInterval(() => {
             this.fireProjectile()
         }, MOB_ATTACK_SPEED);
     }
@@ -84,6 +87,8 @@ export class Mob extends MeshEntity {
             removeMesh(this.mesh)
             removeMesh(this.healthbar)
             mobs.splice(mobs.indexOf(this), 1)
+            clearInterval(this.fireInterval)
+            clearInterval(this.moveInterval)
         }
     }
 }
