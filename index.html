@@ -5,7 +5,17 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body oncontextmenu="return false;">
-    <canvas class="webgl"></canvas>
+    <canvas class="webgl hide-element"></canvas>
+    <div class="menu menu-start">
+      <button class="start-game-button"><span class="blink">Start The Game</span></button>
+    </div>
+    <div class="menu menu-lost hide-element">
+      <div class="you-lost">YOU LOST LMAO</div>
+      <button class="retry-button">Retry</button>
+    </div>
+    <div class="menu menu-win hide-element">
+      YOU WON GGWP
+    </div>
     <script src="./dist/bundle.js"></script>
   </body>
 </html>
