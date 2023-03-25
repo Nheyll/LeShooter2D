@@ -1,5 +1,7 @@
 import * as THREE from "three"
 import { sceneManager } from "../main";
+import { SceneManager } from "../SceneManager";
+import { SCENE_HEIGHT, SCENE_WIDTH } from "./constants";
 
 
 export function updateMove(source: THREE.Vector2, target: THREE.Vector2, move: THREE.Vector2, moveSpeed: number) {
@@ -72,4 +74,27 @@ export function buildMesh(width: number, height: number, colorString: string, po
     mesh.position.x = position.x
     mesh.position.y = position.y
     return mesh
+}
+
+export function convertClickToTarget(mouseEvent : MouseEvent, sceneManager : SceneManager) {
+    let click = new THREE.Vector2(mouseEvent.clientX, mouseEvent.clientY)
+    let target = new THREE.Vector2()
+    click.x -= sceneManager.marginLeft
+    click.y -= sceneManager.marginTop
+    target.x = click.x * SCENE_WIDTH / sceneManager.canvasWidth - SCENE_WIDTH / 2
+    target.y = -click.y * SCENE_HEIGHT / sceneManager.canvasHeight + SCENE_HEIGHT / 2
+    return target
+}
+
+export function isClickOnCanvas(mouseEvent : MouseEvent) {
+    if(
+        mouseEvent.x < sceneManager.marginLeft || 
+        mouseEvent.x > sceneManager.marginLeft + sceneManager.canvasWidth ||
+        mouseEvent.y < sceneManager.marginTop ||
+        mouseEvent.y > sceneManager.marginTop + sceneManager.canvasHeight
+    ) {
+        return false
+    } else {
+        return true
+    }
 }

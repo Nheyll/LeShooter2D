@@ -2,7 +2,7 @@ import { Direction } from "../utils/enums"
 import * as THREE from "three"
 import { autoAttacks, mobs, sceneManager } from "../main"
 import { GAME_SPEED, CHARACTER_SPEED, CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP, CHARACTER_DAMAGE } from "../utils/constants"
-import { buildMesh, isClickOnMesh, updateMove } from "../utils/entityUtils"
+import { buildMesh, isClickOnMesh, updateMove, convertClickToTarget, isClickOnCanvas } from "../utils/entityUtils"
 import { Healthbar } from "../layout/Healthbar"
 import { Mob } from "./Mob"
 import { AutoAttack } from "./Autoattack"
@@ -38,7 +38,10 @@ export class Character extends MeshEntity {
     }
 
     public onRightClick(event: MouseEvent) {
-        this.target.set(event.clientX - sceneManager.windowWidth/2, -event.clientY + sceneManager.windowHeight/2);
+        if(!isClickOnCanvas(event)){
+            return
+        }
+        this.target = convertClickToTarget(event, sceneManager);
         let flagFocus = false
         for(let i = 0; i < mobs.length; i++) {
             if(isClickOnMesh(this.target, mobs[i].mesh)){

@@ -1,5 +1,5 @@
 import { character, projectiles } from "./main";
-import { canvasElement, lostMenuElement, startMenuElement, winMenuElement } from "./utils/constants";
+import { container1Element, lostMenuElement, startMenuElement, winMenuElement } from "./utils/constants";
 import { removeMesh } from "./utils/entityUtils";
 
 export class GameManager {
@@ -12,7 +12,7 @@ export class GameManager {
     }
 
     public runGame() {
-        canvasElement.classList.toggle('hide-element', false)
+        container1Element.classList.toggle('hide-element', false)
         startMenuElement.classList.toggle('hide-element', true)
         lostMenuElement.classList.toggle('hide-element', true)
         winMenuElement.classList.toggle('hide-element', true)
@@ -25,7 +25,7 @@ export class GameManager {
     public onLost() {
         this.isGameRunning = false
         this.resetGame()
-        canvasElement.classList.toggle('hide-element', true)
+        container1Element.classList.toggle('hide-element', true)
         lostMenuElement.classList.toggle('hide-element', false)
         this.audio.pause()
         this.audio = new Audio('../assets/audio/wejdene.mp3');

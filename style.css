@@ -1,19 +1,27 @@
-*
-{
+* {
     padding: 0;
     margin: 0;
 }
 
 body,
-html
-{
+html {
     font-family: 'ArcadeFont', sans-serif;
-    overflow: hidden;
 }
 
-.webgl
-{
-    position: fixed;
+.container1 {
+    margin-right: auto;
+    margin-left: auto;
+    /* max-width is define by js */
+}
+
+.container2 {
+    background: white;
+    position: relative;
+    padding-top: 56.25%;
+}
+
+.webgl {
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -94,4 +102,3 @@ button {
     font-family: 'ArcadeFont';
     src: url('./assets/font/ARCADECLASSIC.TTF') format('truetype');
 }
-  

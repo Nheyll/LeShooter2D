@@ -1,21 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html oncontextmenu="return false;">
   <head>
     <title>Le Shooter 2D</title>
     <link rel="stylesheet" href="style.css">
   </head>
-  <body oncontextmenu="return false;">
-    <canvas class="webgl hide-element"></canvas>
+  <body >
+    <div class="container">
+      <div class="container1 hide-element">
+        <div class="container2">
+          <canvas class="webgl"></canvas>
+        </div>
+      </div>
+    </div>
+    
     <div class="menu menu-start">
       <button class="start-game-button"><span class="blink">Start The Game</span></button>
     </div>
+
     <div class="menu menu-lost hide-element">
       <div class="you-lost">YOU LOST LMAO</div>
       <button class="retry-button">Retry</button>
     </div>
+
     <div class="menu menu-win hide-element">
       YOU WON GGWP
     </div>
+
     <script src="./dist/bundle.js"></script>
+    
   </body>
 </html>
