@@ -6,15 +6,18 @@ import { Projectile } from './entities/Projectile';
 import { GameManager } from './GameManager';
 import { retryButtonElement, startGameButtonElement } from './utils/constants';
 import { AutoAttack } from './entities/Autoattack';
+import { RangeMob } from './entities/RangeMob';
+import { MeleMob } from './entities/MeleMob';
 
 export let projectiles: Projectile[] = []
 export let mobs: Mob[] = []
 export let autoAttacks: AutoAttack[] = []
 export const sceneManager = new SceneManager()
 export const gameManager = new GameManager()
-new Mob(new THREE.Vector2(300,300))
-new Mob(new THREE.Vector2(100,100))
-new Mob(new THREE.Vector2(500,500))
+new RangeMob(new THREE.Vector2(300,300))
+new RangeMob(new THREE.Vector2(100,100))
+new RangeMob(new THREE.Vector2(500,500))
+new MeleMob(new THREE.Vector2(-100,-300))
 export const character = new Character()
 
 function animate() {
@@ -32,6 +35,7 @@ function animate() {
     character.updatePosition()
     mobs.forEach(m => {
         m.updatePosition()
+        m.checkCollision()
     })
     requestAnimationFrame( animate )
     sceneManager.renderer.render( sceneManager.scene, sceneManager.camera )
