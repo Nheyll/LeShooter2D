@@ -21,7 +21,7 @@ export class RangeMob extends Mob {
 
         setTimeout(() => {
             this.startFiring()
-        }, 3000000)
+        }, 3000)
     }
 
     public startFiring() {

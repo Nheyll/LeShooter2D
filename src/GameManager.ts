@@ -1,14 +1,21 @@
-import { character, projectiles } from "./main";
-import { container1Element, lostMenuElement, startMenuElement, winMenuElement } from "./utils/constants";
-import { removeMesh } from "./utils/entityUtils";
+import THREE = require("three");
+import { MeleMob } from "./entities/MeleMob";
+import { RangeMob } from "./entities/RangeMob";
+import { character, mobs, projectiles, sceneManager } from "./main";
+import { container1Element, lostMenuElement, SCENE_HEIGHT, startMenuElement, waveArray, WaveDescription, winMenuElement } from "./utils/constants";
+import { buildTextPromise, removeMesh } from "./utils/entityUtils";
 
 export class GameManager {
     public isGameRunning: boolean
     public audio: any
+    public waveDescriptionArray: WaveDescription[]
+    public waveCount: THREE.Mesh
+    public checkWaveEndInterval: NodeJS.Timer
 
     constructor(){
         this.isGameRunning = false
-        this.audio = new Audio('../assets/audio/jul.mp3');
+        this.audio = new Audio('../assets/audio/jul.mp3'); 
+        this.waveDescriptionArray = waveArray
     }
 
     public runGame() {
@@ -16,10 +23,41 @@ export class GameManager {
         startMenuElement.classList.toggle('hide-element', true)
         lostMenuElement.classList.toggle('hide-element', true)
         winMenuElement.classList.toggle('hide-element', true)
-        this.isGameRunning = true
+
         this.audio.pause()
         this.audio = new Audio('../assets/audio/jul.mp3');
         this.audio.play();
+
+        this.startWaves()
+    }
+    
+    public startWaves() {
+        this.isGameRunning = true
+        let indexWave = 0;
+        this.checkWaveEndInterval = setInterval(() => {
+            if(mobs.length == 0 && this.waveDescriptionArray.length >= indexWave+1) {
+                this.startWave(this.waveDescriptionArray[indexWave])
+                indexWave++
+            }
+        }, 250);
+        
+    }
+
+    public startWave(waveDescription: WaveDescription) {
+        removeMesh(this.waveCount)
+        buildTextPromise("Wave " + waveDescription.waveId +" out of " + this.waveDescriptionArray.length, 30, new THREE.Vector2(-100, SCENE_HEIGHT / 2 - 50))
+        .then((mesh) => {
+            this.waveCount = mesh
+            sceneManager.scene.add(this.waveCount)
+        })  
+
+        for(let i = 0; i < waveDescription.meleMobs; i++) {
+            new MeleMob(new THREE.Vector2(Math.floor(Math.random() * 1601) - 800, Math.floor(Math.random() * 901) - 450))
+        }
+
+        for(let i = 0; i < waveDescription.rangeMobs; i++) {
+            new RangeMob(new THREE.Vector2(Math.floor(Math.random() * 1601) - 800, Math.floor(Math.random() * 901) - 450))
+        }
     }
 
     public onLost() {
