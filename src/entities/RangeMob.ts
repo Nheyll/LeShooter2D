@@ -1,6 +1,6 @@
 import { Vector2 } from "three";
 import THREE = require("three");
-import { character, gameManager, mobs, sceneManager } from "../main";
+import { character, mobs, sceneManager } from "../main";
 import { CHARACTER_DAMAGE, HEALTHBAR_COLOR, RANGEMOB_ATTACK_SPEED, RANGEMOB_COLOR, RANGEMOB_MAX_HEALTH, RANGEMOB_SIZE } from "../utils/constants";
 import { buildMesh, removeMesh } from "../utils/entityUtils";
 import { Mob } from "./Mob";
@@ -21,7 +21,7 @@ export class RangeMob extends Mob {
 
         setTimeout(() => {
             this.startFiring()
-        }, 3000)
+        }, 2000)
     }
 
     public startFiring() {
@@ -31,20 +31,23 @@ export class RangeMob extends Mob {
     }
 
     public fireProjectile() {
-        if (gameManager.isGameRunning)
-            new Projectile(new Vector2(this.mesh.position.x, this.mesh.position.y), character.current)
+        new Projectile(new Vector2(this.mesh.position.x, this.mesh.position.y), character.current)
     }
 
     public takeDamage() {
         this.health -= CHARACTER_DAMAGE
         this.healthbar.scale.x = this.health / this.maxHealth
         if (this.health <= 0) {
-            removeMesh(this.mesh)
-            removeMesh(this.healthbar)
+            this.die()
             mobs.splice(mobs.indexOf(this), 1)
-            clearInterval(this.fireInterval)
-            clearInterval(this.moveInterval)
         }
+    }
+
+    public die() {
+        removeMesh(this.mesh)
+        removeMesh(this.healthbar)
+        clearInterval(this.fireInterval)
+        clearInterval(this.moveInterval)
     }
 
     public updateMoveRandomly() {

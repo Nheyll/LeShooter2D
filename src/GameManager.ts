@@ -4,16 +4,17 @@ import { RangeMob } from "./entities/RangeMob";
 import { character, mobs, projectiles, sceneManager } from "./main";
 import { container1Element, lostMenuElement, SCENE_HEIGHT, startMenuElement, waveArray, WaveDescription, winMenuElement } from "./utils/constants";
 import { buildTextPromise, removeMesh } from "./utils/entityUtils";
+import { GameState } from "./utils/enums";
 
 export class GameManager {
-    public isGameRunning: boolean
+    public gameState: string
     public audio: any
     public waveDescriptionArray: WaveDescription[]
     public waveCount: THREE.Mesh
-    public checkWaveEndInterval: NodeJS.Timer
+    public checkGameStateInterval: NodeJS.Timer
 
     constructor(){
-        this.isGameRunning = false
+        this.gameState = GameState.RUNNING
         this.audio = new Audio('../assets/audio/jul.mp3'); 
         this.waveDescriptionArray = waveArray
     }
@@ -25,19 +26,27 @@ export class GameManager {
         winMenuElement.classList.toggle('hide-element', true)
 
         this.audio.pause()
-        this.audio = new Audio('../assets/audio/jul.mp3');
-        this.audio.play();
+        //this.audio = new Audio('../assets/audio/jul.mp3');
+        //this.audio.play();
 
         this.startWaves()
     }
     
     public startWaves() {
-        this.isGameRunning = true
+        this.gameState = GameState.RUNNING
         let indexWave = 0;
-        this.checkWaveEndInterval = setInterval(() => {
+        this.checkGameStateInterval = setInterval(() => {
             if(mobs.length == 0 && this.waveDescriptionArray.length >= indexWave+1) {
                 this.startWave(this.waveDescriptionArray[indexWave])
                 indexWave++
+            } else if (mobs.length == 0 && this.waveDescriptionArray.length < indexWave+1) {
+                this.onWin()
+                this.gameState = GameState.WON
+                clearInterval(this.checkGameStateInterval)
+            } else if (character.healthbar.health <= 0) {
+                this.onLost()
+                this.gameState = GameState.LOST
+                clearInterval(this.checkGameStateInterval)
             }
         }, 250);
         
@@ -61,13 +70,19 @@ export class GameManager {
     }
 
     public onLost() {
-        this.isGameRunning = false
+        removeMesh(this.waveCount)
+        this.gameState = GameState.RUNNING
         this.resetGame()
         container1Element.classList.toggle('hide-element', true)
         lostMenuElement.classList.toggle('hide-element', false)
         this.audio.pause()
         this.audio = new Audio('../assets/audio/wejdene.mp3');
-        this.audio.play();
+        //this.audio.play();
+
+        mobs.forEach(m => {
+            m.die()
+        })
+        mobs.length = 0
     }
 
     public resetGame() {
@@ -76,5 +91,10 @@ export class GameManager {
         })
         projectiles.length = 0
         character.healthbar.health = character.healthbar.maxHealth
+    }
+
+    public onWin() {
+        removeMesh(this.waveCount)
+        console.log("win")
     }
 }

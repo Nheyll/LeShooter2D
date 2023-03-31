@@ -18,9 +18,7 @@ export class Healthbar {
 
     public updateHealthBar(lifeDelta: number) {
         this.health += lifeDelta
-        if(this.health <= 0) {
-            gameManager.onLost()
-        }
+
         if(this.health > this.maxHealth) {
             this.health = this.maxHealth
         }

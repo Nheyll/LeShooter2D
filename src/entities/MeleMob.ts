@@ -13,7 +13,7 @@ export class MeleMob extends Mob {
         super(buildMesh(MELEMOB_SIZE, MELEMOB_SIZE, MELEMOB_COLOR, new THREE.Vector2(position.x, position.y)),
             buildMesh(MELEMOB_SIZE, 10, HEALTHBAR_COLOR, new THREE.Vector2(position.x, position.y + MELEMOB_SIZE / 2 + 20)),
             MELEMOB_MAX_HEALTH)
-        this.isAutoAttackCooldown = false
+        this.isAutoAttackCooldown = true
         this.moveInterval = setInterval(() => {
             updateMove(new THREE.Vector2(this.mesh.position.x, this.mesh.position.y), character.current, this.move, MELEMOB_SPEED)
         }, 200);
@@ -24,11 +24,15 @@ export class MeleMob extends Mob {
         this.health -= CHARACTER_DAMAGE
         this.healthbar.scale.x = this.health / this.maxHealth
         if (this.health <= 0) {
-            removeMesh(this.mesh)
-            removeMesh(this.healthbar)
+            this.die()
             mobs.splice(mobs.indexOf(this), 1)
-            clearInterval(this.moveInterval)
         }
+    }
+
+    public die(){
+        removeMesh(this.mesh)
+        removeMesh(this.healthbar)
+        clearInterval(this.moveInterval)
     }
 
     public checkCollision() {

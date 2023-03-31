@@ -44,6 +44,8 @@ export class Mob extends MeshEntity {
     }
 
     public checkCollision() {
+    }
 
+    public die() {
     }
 }
