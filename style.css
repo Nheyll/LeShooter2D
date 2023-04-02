@@ -6,6 +6,7 @@
 body,
 html {
     font-family: 'ArcadeFont', sans-serif;
+    color: white;
 }
 
 .container1 {
@@ -40,17 +41,8 @@ html {
     left: 0;
     width: 100%;
     height: 100%;
-}
-
-.menu-lost {
-    background-image: url("assets/img/wejdene.jpg");
-    background-repeat: repeat;
-    background-size: 23%;
-}
-
-.menu-start {
-    background-image: url("assets/img/jul.jpg");
-    background-repeat: repeat;
+    background-color: black;
+    font-size: 5em;
 }
 
 @keyframes blink {
@@ -78,23 +70,18 @@ button {
     transform: translate(-50%, -50%);
 }
 
-.you-lost {
-    background-color: #000000;
-    color: white;
-    font-size: 5em;
+.result {
     position: absolute;
     left: 50%;
     top: 20%;
     transform: translate(-50%, -50%);
 }
 
-.retry-button {
-    font-size: 5em;
+.retry-button-lost, .retry-button-win{
     position: absolute;
     left: 50%;
     top: 40%;
     transform: translate(-50%, -50%);
-    color: white
 }
 
 

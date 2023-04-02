@@ -13,7 +13,7 @@ export class MeleMob extends Mob {
         super(buildMesh(MELEMOB_SIZE, MELEMOB_SIZE, MELEMOB_COLOR, new THREE.Vector2(position.x, position.y)),
             buildMesh(MELEMOB_SIZE, 10, HEALTHBAR_COLOR, new THREE.Vector2(position.x, position.y + MELEMOB_SIZE / 2 + 20)),
             MELEMOB_MAX_HEALTH)
-        this.isAutoAttackCooldown = true
+        this.isAutoAttackCooldown = false
         this.moveInterval = setInterval(() => {
             updateMove(new THREE.Vector2(this.mesh.position.x, this.mesh.position.y), character.current, this.move, MELEMOB_SPEED)
         }, 200);

@@ -3,8 +3,8 @@ import { Mob } from "./entities/Mob"
 import { Character } from './entities/Character';
 import { Projectile } from './entities/Projectile';
 import { GameManager } from './GameManager';
-import { retryButtonElement, startGameButtonElement } from './utils/constants';
-import { AutoAttack } from './entities/Autoattack';
+import { retryButtonLostElement, retryButtonWinElement, startGameButtonElement } from './utils/constants';
+import { AutoAttack } from './entities/AutoAttack';
 
 export let projectiles: Projectile[] = []
 export let mobs: Mob[] = []
@@ -42,6 +42,10 @@ startGameButtonElement?.addEventListener('click', () => {
     gameManager.runGame()
 })
 
-retryButtonElement?.addEventListener('click', () => {
+retryButtonWinElement?.addEventListener('click', () => {
+    gameManager.runGame()
+})
+
+retryButtonLostElement?.addEventListener('click', () => {
     gameManager.runGame()
 })

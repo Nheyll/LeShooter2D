@@ -32,14 +32,16 @@ export const HEALTHBAR_COLOR = "0x7CFC00";
 
 export const container1Element = document.querySelector(".container1") as HTMLElement
 export const startGameButtonElement = document.querySelector(".start-game-button")
-export const retryButtonElement = document.querySelector(".retry-button")
+export const retryButtonLostElement = document.querySelector(".retry-button-lost")
+export const retryButtonWinElement = document.querySelector(".retry-button-win")
 export const startMenuElement = document.querySelector(".menu-start")
 export const lostMenuElement = document.querySelector(".menu-lost")
 export const winMenuElement = document.querySelector(".menu-win")
 
 export const waveArray: WaveDescription[] = [
-    { waveId: 1, meleMobs: 1, rangeMobs: 0 },
-    { waveId: 1, meleMobs: 1, rangeMobs: 3 },
+    { waveId: 1, meleMobs: 0, rangeMobs: 1 },
+    { waveId: 2, meleMobs: 0, rangeMobs: 2 },
+    { waveId: 3, meleMobs: 0, rangeMobs: 3 },
 ];
   
 export interface WaveDescription {

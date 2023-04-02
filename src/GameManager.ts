@@ -24,11 +24,7 @@ export class GameManager {
         startMenuElement.classList.toggle('hide-element', true)
         lostMenuElement.classList.toggle('hide-element', true)
         winMenuElement.classList.toggle('hide-element', true)
-
-        this.audio.pause()
-        //this.audio = new Audio('../assets/audio/jul.mp3');
-        //this.audio.play();
-
+        this.resetGame()
         this.startWaves()
     }
     
@@ -70,31 +66,25 @@ export class GameManager {
     }
 
     public onLost() {
-        removeMesh(this.waveCount)
-        this.gameState = GameState.RUNNING
-        this.resetGame()
         container1Element.classList.toggle('hide-element', true)
         lostMenuElement.classList.toggle('hide-element', false)
-        this.audio.pause()
-        this.audio = new Audio('../assets/audio/wejdene.mp3');
-        //this.audio.play();
+    }
 
+    public onWin() {
+        container1Element.classList.toggle('hide-element', true)
+        winMenuElement.classList.toggle('hide-element', false)
+    }
+
+    public resetGame() {
         mobs.forEach(m => {
             m.die()
         })
         mobs.length = 0
-    }
-
-    public resetGame() {
+        removeMesh(this.waveCount)
         projectiles.forEach(p => {
             removeMesh(p.mesh)
         })
         projectiles.length = 0
-        character.healthbar.health = character.healthbar.maxHealth
-    }
-
-    public onWin() {
-        removeMesh(this.waveCount)
-        console.log("win")
+        character.resetState()
     }
 }

@@ -1,5 +1,6 @@
 import * as THREE from "three"
-import { sceneManager, gameManager } from "../main"
+import { sceneManager } from "../main"
+import { SCENE_HEIGHT } from "../utils/constants"
 
 export class Healthbar {
     public maxHealth:number
@@ -12,7 +13,7 @@ export class Healthbar {
         const geometry = new THREE.PlaneGeometry( this.health, 30, 1, 1 );
         const material = new THREE.MeshBasicMaterial( { color: 0x7CFC00, side: THREE.DoubleSide } );
         this.mesh = new THREE.Mesh( geometry, material );
-        this.mesh.position.y = - sceneManager.windowHeight/2 + 100
+        this.mesh.position.y = -SCENE_HEIGHT/2 + 50
         sceneManager.scene.add( this.mesh );
     }
 

@@ -5,7 +5,7 @@ import { GAME_SPEED, CHARACTER_SPEED, CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_W
 import { buildMesh, isClickOnMesh, updateMove, convertClickToTarget, isClickOnCanvas } from "../utils/entityUtils"
 import { Healthbar } from "../layout/Healthbar"
 import { Mob } from "./Mob"
-import { AutoAttack } from "./Autoattack"
+import { AutoAttack } from "./AutoAttack"
 import { MeshEntity } from "../MeshEntity"
 import { Vector2 } from "three"
 
@@ -176,5 +176,17 @@ export class Character extends MeshEntity {
             this.mesh.position.x = this.target.x;
             this.mesh.position.y = this.target.y;
         }
+    }
+
+    public resetState() {
+        this.healthbar.health = this.healthbar.maxHealth
+        this.healthbar.updateHealthBar(0)
+        this.resetAutoattackState()
+        this.moveDirection = Direction.NOT_MOVING;     
+    }
+
+    public resetAutoattackState() {
+        this.isAutoAttacking = false
+        this.isAutoAttackCooldown = false 
     }
 }

@@ -1,7 +1,7 @@
 import { Vector2 } from "three";
 import THREE = require("three");
 import { character, mobs, sceneManager } from "../main";
-import { CHARACTER_DAMAGE, HEALTHBAR_COLOR, RANGEMOB_ATTACK_SPEED, RANGEMOB_COLOR, RANGEMOB_MAX_HEALTH, RANGEMOB_SIZE } from "../utils/constants";
+import { CHARACTER_DAMAGE, HEALTHBAR_COLOR, RANGEMOB_ATTACK_SPEED, RANGEMOB_COLOR, RANGEMOB_MAX_HEALTH, RANGEMOB_SIZE, SCENE_HEIGHT, SCENE_WIDTH } from "../utils/constants";
 import { buildMesh, removeMesh } from "../utils/entityUtils";
 import { Mob } from "./Mob";
 import { Projectile } from "./Projectile";
@@ -51,13 +51,13 @@ export class RangeMob extends Mob {
     }
 
     public updateMoveRandomly() {
-        if (this.mesh.position.x > sceneManager.windowWidth / 2 - 100) {
+        if (this.mesh.position.x > SCENE_WIDTH / 2 - 100) {
             this.move = new THREE.Vector2(-1, 0);
-        } else if (this.mesh.position.x < -sceneManager.windowWidth / 2 + 100) {
+        } else if (this.mesh.position.x < -SCENE_WIDTH / 2 + 100) {
             this.move = new THREE.Vector2(1, 0);
-        } else if (this.mesh.position.y > sceneManager.windowHeight / 2 - 100) {
+        } else if (this.mesh.position.y > SCENE_HEIGHT / 2 - 100) {
             this.move = new THREE.Vector2(0, -1);
-        } else if (this.mesh.position.y < -sceneManager.windowHeight / 2 + 100) {
+        } else if (this.mesh.position.y < - SCENE_HEIGHT / 2 + 100) {
             this.move = new THREE.Vector2(0, 1);
         } else {
             this.move = this.generateRandomMove()
