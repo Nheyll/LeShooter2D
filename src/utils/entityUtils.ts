@@ -101,25 +101,26 @@ export function isClickOnCanvas(mouseEvent: MouseEvent) {
     }
 }
 
-export function buildTextPromise(text: string, size: number, position: THREE.Vector2): Promise<THREE.Mesh> {
+export function buildTextPromise(text: string, size: number, position: THREE.Vector2, colorString: string): Promise<THREE.Mesh> {
+    const colorThree = new THREE.Color(parseInt(colorString, 16))
     return new Promise((resolve, reject) => {
-      const loader = new FontLoader();
-  
-      loader.load('/assets/font/ArcadeClassic_Regular.json', function (font) {
-        const geometry = new TextGeometry(text, {
-          font: font,
-          size: size,
-          height: 5,
-          curveSegments: 20,
-          bevelEnabled: false,
-        });
-  
-        const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-        const mesh = new THREE.Mesh(geometry, material);
-        mesh.position.x = position.x
-        mesh.position.y = position.y
-  
-        resolve(mesh);
-      }, undefined, reject);
+        const loader = new FontLoader();
+
+        loader.load('/assets/font/ArcadeClassic_Regular.json', function (font) {
+            const geometry = new TextGeometry(text, {
+                font: font,
+                size: size,
+                height: 5,
+                curveSegments: 20,
+                bevelEnabled: false,
+            });
+
+            const material = new THREE.MeshBasicMaterial({ color: colorThree });
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.position.x = position.x
+            mesh.position.y = position.y
+
+            resolve(mesh);
+        }, undefined, reject);
     });
-  }
+}

@@ -1,9 +1,10 @@
 import { Direction } from "../utils/enums"
 import * as THREE from "three"
-import { autoAttacks, mobs, sceneManager } from "../main"
-import { GAME_SPEED, CHARACTER_SPEED, CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP, CHARACTER_DAMAGE } from "../utils/constants"
+import { autoAttacks, mobs, sceneManager, gameManager } from "../main"
+import { GAME_SPEED, CHARACTER_SPEED, CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP, CHARACTER_DAMAGE, SPELL_AS_COOLDOWN, SPELL_AS_DURATION, SPELL_AS_MANA_COST } from "../utils/constants"
 import { buildMesh, isClickOnMesh, updateMove, convertClickToTarget, isClickOnCanvas } from "../utils/entityUtils"
-import { Healthbar } from "../layout/Healthbar"
+import { Healthbar } from "./Healthbar"
+import { Manabar } from "./Manabar"
 import { Mob } from "./Mob"
 import { AutoAttack } from "./AutoAttack"
 import { MeshEntity } from "../MeshEntity"
@@ -15,15 +16,20 @@ export class Character extends MeshEntity {
     public target: THREE.Vector2
     public moveDirection: string
     public moveSpeed: number
-    public mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
     public healthbar: Healthbar
+    public manabar: Manabar
     public isAutoAttacking: boolean
     public isAutoAttackCooldown: boolean
     public focus: Mob
+    public attackWindup: number
+    public attackSpeed: number
+    public isSpellAttackSpeedCooldown: boolean
+
 
     constructor() {
         super(buildMesh(100, 100, "0xff0000", new Vector2(-100, -100)))
         this.healthbar = new Healthbar()
+        this.manabar = new Manabar()
         this.move = new THREE.Vector2(0, 0);
         this.current = new THREE.Vector2(0, 0);
         this.target = new THREE.Vector2(0, 0);
@@ -31,9 +37,19 @@ export class Character extends MeshEntity {
         this.moveSpeed = GAME_SPEED * CHARACTER_SPEED
         this.isAutoAttacking = false
         this.isAutoAttackCooldown = false
+        this.attackSpeed = CHARACTER_ATTACK_SPEED
+        this.attackWindup = CHARACTER_ATTACK_WINDUP
+        this.isSpellAttackSpeedCooldown = false
         sceneManager.scene.add( this.mesh );
+
         window.addEventListener('contextmenu', (event) => {
             this.onRightClick(event);
+        });
+
+        window.addEventListener('keydown', (event: KeyboardEvent) => {
+            if (event.key === 'a' || event.key === 'q') {
+                this.castSpellAttackSpeed()
+            }
         });
     }
 
@@ -95,7 +111,7 @@ export class Character extends MeshEntity {
         setTimeout(() => {
             if(windup)
                 this.fireAutoAttack()
-        }, CHARACTER_ATTACK_WINDUP)
+        }, this.attackWindup)
     }
 
     public fireAutoAttack() {
@@ -131,7 +147,7 @@ export class Character extends MeshEntity {
             this.isAutoAttackCooldown = false
             if(stillAutoAttacking)
                 this.onAutoAttack()
-        }, CHARACTER_ATTACK_SPEED)
+        }, this.attackSpeed)
     }
 
     public onMove() {
@@ -188,5 +204,28 @@ export class Character extends MeshEntity {
     public resetAutoattackState() {
         this.isAutoAttacking = false
         this.isAutoAttackCooldown = false 
+    }
+
+    public castSpellAttackSpeed() {
+        if(!this.isSpellAttackSpeedCooldown && this.manabar.hasEnoughMana(SPELL_AS_MANA_COST)){
+            this.attackSpeed /= 2
+            this.attackWindup /= 2
+            this.isSpellAttackSpeedCooldown = true
+    
+            setTimeout(() => {
+                this.attackSpeed *= 2
+                this.attackWindup *= 2 
+            }, SPELL_AS_DURATION)
+
+            setTimeout(() => {
+                this.isSpellAttackSpeedCooldown = false
+            }, SPELL_AS_COOLDOWN)
+    
+            this.manabar.updateManabar(-SPELL_AS_MANA_COST)
+        } else if(this.isSpellAttackSpeedCooldown){
+            gameManager.writeTemporaryWarning("Spell is on cooldown")
+        } else if(!this.manabar.hasEnoughMana(SPELL_AS_MANA_COST)) {
+            gameManager.writeTemporaryWarning("Not enough mana")
+        }
     }
 }

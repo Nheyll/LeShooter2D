@@ -2,7 +2,7 @@ import THREE = require("three");
 import { MeleMob } from "./entities/MeleMob";
 import { RangeMob } from "./entities/RangeMob";
 import { character, mobs, projectiles, sceneManager } from "./main";
-import { container1Element, lostMenuElement, SCENE_HEIGHT, startMenuElement, waveArray, WaveDescription, winMenuElement } from "./utils/constants";
+import { container1Element, lostMenuElement, RED_COLOR, SCENE_HEIGHT, startMenuElement, TEMPORARY_MESSAGE_DURATION, waveArray, WaveDescription, WHITE_COLOR, winMenuElement } from "./utils/constants";
 import { buildTextPromise, removeMesh } from "./utils/entityUtils";
 import { GameState } from "./utils/enums";
 
@@ -11,6 +11,8 @@ export class GameManager {
     public audio: any
     public waveDescriptionArray: WaveDescription[]
     public waveCount: THREE.Mesh
+    public warning: THREE.Mesh
+    public warningTimeout: NodeJS.Timeout
     public checkGameStateInterval: NodeJS.Timer
 
     constructor(){
@@ -50,7 +52,7 @@ export class GameManager {
 
     public startWave(waveDescription: WaveDescription) {
         removeMesh(this.waveCount)
-        buildTextPromise("Wave " + waveDescription.waveId +" out of " + this.waveDescriptionArray.length, 30, new THREE.Vector2(-100, SCENE_HEIGHT / 2 - 50))
+        buildTextPromise("Wave " + waveDescription.waveId +" out of " + this.waveDescriptionArray.length, 30, new THREE.Vector2(-100, SCENE_HEIGHT / 2 - 50), WHITE_COLOR)
         .then((mesh) => {
             this.waveCount = mesh
             sceneManager.scene.add(this.waveCount)
@@ -86,5 +88,19 @@ export class GameManager {
         })
         projectiles.length = 0
         character.resetState()
+    }
+
+    public writeTemporaryWarning(text: string) {
+        clearTimeout(this.warningTimeout);
+        removeMesh(this.warning)
+        buildTextPromise(text, 20, new THREE.Vector2(0 - text.length * 5, -SCENE_HEIGHT / 2 + 150), RED_COLOR)        
+        .then((mesh) => {
+            this.warning = mesh
+            sceneManager.scene.add(this.warning)
+            this.warningTimeout = setTimeout(() => {
+                removeMesh(this.warning)
+                this.warning = null;
+            }, TEMPORARY_MESSAGE_DURATION)
+        }) 
     }
 }
