@@ -1,7 +1,7 @@
 import { Direction } from "../utils/enums"
 import * as THREE from "three"
 import { autoAttacks, mobs, sceneManager, gameManager } from "../main"
-import { GAME_SPEED, CHARACTER_SPEED, CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP, CHARACTER_DAMAGE, SPELL_AS_COOLDOWN, SPELL_AS_DURATION, SPELL_AS_MANA_COST, CHARACTER_COLOR } from "../utils/constants"
+import { GAME_SPEED, CHARACTER_SPEED, CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP, CHARACTER_DAMAGE, SPELL_AS_COOLDOWN, SPELL_AS_DURATION, SPELL_AS_MANA_COST, CHARACTER_COLOR, SPELL_HEAL_MANA_COST, SPELL_HEAL_VALUE, SPELL_HEAL_COOLDOWN } from "../utils/constants"
 import { buildMesh, isClickOnMesh, updateMove, convertClickToTarget, isClickOnCanvas } from "../utils/entityUtils"
 import { Healthbar } from "./Healthbar"
 import { Manabar } from "./Manabar"
@@ -24,6 +24,7 @@ export class Character extends MeshEntity {
     public attackWindup: number
     public attackSpeed: number
     public isSpellAttackSpeedCooldown: boolean
+    public isSpellHealCooldown: boolean
 
 
     constructor() {
@@ -40,6 +41,9 @@ export class Character extends MeshEntity {
         this.attackSpeed = CHARACTER_ATTACK_SPEED
         this.attackWindup = CHARACTER_ATTACK_WINDUP
         this.isSpellAttackSpeedCooldown = false
+        this.isSpellHealCooldown = false
+
+
         sceneManager.scene.add( this.mesh );
 
         window.addEventListener('contextmenu', (event) => {
@@ -49,6 +53,12 @@ export class Character extends MeshEntity {
         window.addEventListener('keydown', (event: KeyboardEvent) => {
             if (event.key === 'a' || event.key === 'q') {
                 this.castSpellAttackSpeed()
+            }
+        });
+
+        window.addEventListener('keydown', (event: KeyboardEvent) => {
+            if (event.key === 'w' || event.key === 'z') {
+                this.castSpellHeal()
             }
         });
     }
@@ -217,6 +227,26 @@ export class Character extends MeshEntity {
             gameManager.writeTemporaryWarning("Spell is on cooldown")
         } else if(!this.manabar.hasEnoughMana(SPELL_AS_MANA_COST)) {
             gameManager.writeTemporaryWarning("Not enough mana")
+        }
+    }
+
+    public castSpellHeal() {
+        if(!this.isSpellHealCooldown && this.manabar.hasEnoughMana(SPELL_HEAL_MANA_COST) && this.healthbar.health < this.healthbar.maxHealth){
+            this.healthbar.updateHealthBar(SPELL_HEAL_VALUE)
+            this.manabar.updateManabar(-SPELL_HEAL_MANA_COST)
+
+            this.isSpellHealCooldown = true
+
+            setTimeout(() => {
+                this.isSpellHealCooldown = false
+            }, SPELL_HEAL_COOLDOWN)
+
+        } else if(this.isSpellHealCooldown){
+            gameManager.writeTemporaryWarning("Spell is on cooldown")
+        } else if(!this.manabar.hasEnoughMana(SPELL_HEAL_MANA_COST)) {
+            gameManager.writeTemporaryWarning("Not enough mana")
+        } else if(this.healthbar.health = this.healthbar.maxHealth) {
+            gameManager.writeTemporaryWarning("Already full life")
         }
     }
 }
