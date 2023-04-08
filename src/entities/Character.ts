@@ -1,7 +1,7 @@
 import { Direction } from "../utils/enums"
 import * as THREE from "three"
 import { autoAttacks, mobs, sceneManager, gameManager } from "../main"
-import { GAME_SPEED, CHARACTER_SPEED, CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP, CHARACTER_DAMAGE, SPELL_AS_COOLDOWN, SPELL_AS_DURATION, SPELL_AS_MANA_COST } from "../utils/constants"
+import { GAME_SPEED, CHARACTER_SPEED, CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP, CHARACTER_DAMAGE, SPELL_AS_COOLDOWN, SPELL_AS_DURATION, SPELL_AS_MANA_COST, CHARACTER_COLOR } from "../utils/constants"
 import { buildMesh, isClickOnMesh, updateMove, convertClickToTarget, isClickOnCanvas } from "../utils/entityUtils"
 import { Healthbar } from "./Healthbar"
 import { Manabar } from "./Manabar"
@@ -27,7 +27,7 @@ export class Character extends MeshEntity {
 
 
     constructor() {
-        super(buildMesh(100, 100, "0xff0000", new Vector2(-100, -100)))
+        super(buildMesh(100, 100, CHARACTER_COLOR, new Vector2(-100, -100)))
         this.healthbar = new Healthbar()
         this.manabar = new Manabar()
         this.move = new THREE.Vector2(0, 0);
@@ -121,17 +121,6 @@ export class Character extends MeshEntity {
 
         let stillAutoAttacking = true
 
-        if(this.focus.health - CHARACTER_DAMAGE <= 0) {
-            if(mobs.indexOf(this.focus) != 0){
-                this.focus = mobs[0]
-            } else if(mobs.length > 1) {
-                this.focus = mobs[1]
-            } else {
-                this.focus = null
-                this.isAutoAttacking = false
-            }
-        }
-
         let count = 0;
         const intervalId = setInterval(() => {
             count++
@@ -197,6 +186,8 @@ export class Character extends MeshEntity {
     public resetState() {
         this.healthbar.health = this.healthbar.maxHealth
         this.healthbar.updateHealthBar(0)
+        this.manabar.mana = this.manabar.maxMana
+        this.manabar.updateManabar(0)
         this.resetAutoattackState()
         this.moveDirection = Direction.NOT_MOVING;     
     }
