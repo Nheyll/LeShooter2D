@@ -1,7 +1,7 @@
 import { Direction } from "../utils/enums"
 import * as THREE from "three"
 import { autoAttacks, mobs, sceneManager, gameManager } from "../main"
-import { GAME_SPEED, CHARACTER_SPEED, CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP, CHARACTER_DAMAGE, SPELL_AS_COOLDOWN, SPELL_AS_DURATION, SPELL_AS_MANA_COST, CHARACTER_COLOR, SPELL_HEAL_MANA_COST, SPELL_HEAL_VALUE, SPELL_HEAL_COOLDOWN } from "../utils/constants"
+import { GAME_SPEED, CHARACTER_SPEED, CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP, CHARACTER_DAMAGE, SPELL_AS_COOLDOWN, SPELL_AS_DURATION, SPELL_AS_MANA_COST, CHARACTER_COLOR, SPELL_HEAL_MANA_COST, SPELL_HEAL_VALUE, SPELL_HEAL_COOLDOWN, HEALTHBAR_COLOR, SCENE_HEIGHT, RED_COLOR } from "../utils/constants"
 import { buildMesh, isClickOnMesh, updateMove, convertClickToTarget, isClickOnCanvas } from "../utils/entityUtils"
 import { Healthbar } from "./Healthbar"
 import { Manabar } from "./Manabar"
@@ -25,7 +25,8 @@ export class Character extends MeshEntity {
     public attackSpeed: number
     public isSpellAttackSpeedCooldown: boolean
     public isSpellHealCooldown: boolean
-
+    public spellHealMesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
+    public spellAttackSpeedMesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
 
     constructor() {
         super(buildMesh(100, 100, CHARACTER_COLOR, new Vector2(-100, -100)))
@@ -43,7 +44,11 @@ export class Character extends MeshEntity {
         this.isSpellAttackSpeedCooldown = false
         this.isSpellHealCooldown = false
 
+        this.spellHealMesh = buildMesh(70, 70, HEALTHBAR_COLOR, new THREE.Vector2(-100, -SCENE_HEIGHT/2 + 180))
+        this.spellAttackSpeedMesh = buildMesh(70, 70, RED_COLOR, new THREE.Vector2(100, -SCENE_HEIGHT/2 + 180))
 
+        sceneManager.scene.add(this.spellAttackSpeedMesh)
+        sceneManager.scene.add(this.spellHealMesh)
         sceneManager.scene.add( this.mesh );
 
         window.addEventListener('contextmenu', (event) => {

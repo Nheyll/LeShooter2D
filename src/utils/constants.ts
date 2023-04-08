@@ -12,7 +12,7 @@ export const RANGEMOB_MAX_HEALTH = 1000
 export const RANGEMOB_SIZE = 100
 export const RANGEMOB_SPEED = 1;
 export const RANGEMOB_COLOR = "0xffff00"
-export const RANGEMOB_DAMAGE = 100
+export const RANGEMOB_DAMAGE = 0
 
 export const MELEMOB_ATTACK_SPEED = 1000
 export const MELEMOB_MAX_HEALTH = 1000
