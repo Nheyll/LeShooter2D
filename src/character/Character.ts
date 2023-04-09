@@ -1,17 +1,17 @@
 import { Direction } from "../utils/enums"
 import * as THREE from "three"
-import { autoAttacks, mobs, sceneManager, gameManager } from "../main"
-import { GAME_SPEED, CHARACTER_SPEED, CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP, CHARACTER_DAMAGE, SPELL_AS_COOLDOWN, SPELL_AS_DURATION, SPELL_AS_MANA_COST, CHARACTER_COLOR, SPELL_HEAL_MANA_COST, SPELL_HEAL_VALUE, SPELL_HEAL_COOLDOWN, HEALTHBAR_COLOR, SCENE_HEIGHT, RED_COLOR, WHITE_COLOR } from "../utils/constants"
+import { mobs, sceneManager, gameManager } from "../main"
+import { GAME_SPEED, CHARACTER_SPEED, SPELL_AS_COOLDOWN, SPELL_AS_DURATION, SPELL_AS_MANA_COST, CHARACTER_COLOR, SPELL_HEAL_MANA_COST, SPELL_HEAL_VALUE, SPELL_HEAL_COOLDOWN, HEALTHBAR_COLOR, SCENE_HEIGHT, RED_COLOR, WHITE_COLOR } from "../utils/constants"
 import { buildMesh, isClickOnMesh, updateMove, convertClickToTarget, isClickOnCanvas, buildTextPromise } from "../utils/entityUtils"
 import { Healthbar } from "./Healthbar"
 import { Manabar } from "./Manabar"
-import { Mob } from "./Mob"
-import { AutoAttack } from "./AutoAttack"
-import { MeshEntity } from "../MeshEntity"
+import { MeshEntity } from "../entities/MeshEntity"
 import { Vector2 } from "three"
 import { removeMesh } from "../utils/entityUtils"
+import { AutoAttackManager } from "./AutoAttackManager"
 
 export class Character extends MeshEntity {
+    public autoAttackManager: AutoAttackManager
     public move: THREE.Vector2
     public current: THREE.Vector2
     public target: THREE.Vector2
@@ -19,11 +19,6 @@ export class Character extends MeshEntity {
     public moveSpeed: number
     public healthbar: Healthbar
     public manabar: Manabar
-    public isAutoAttacking: boolean
-    public isAutoAttackCooldown: boolean
-    public focus: Mob
-    public attackWindup: number
-    public attackSpeed: number
     public isSpellAttackSpeedCooldown: boolean
     public isSpellHealCooldown: boolean
     public spellHealMesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
@@ -35,6 +30,7 @@ export class Character extends MeshEntity {
 
     constructor() {
         super(buildMesh(100, 100, CHARACTER_COLOR, new Vector2(-100, -100)))
+        this.autoAttackManager = new AutoAttackManager()
         this.healthbar = new Healthbar()
         this.manabar = new Manabar()
         this.move = new THREE.Vector2(0, 0);
@@ -42,10 +38,6 @@ export class Character extends MeshEntity {
         this.target = new THREE.Vector2(0, 0);
         this.moveDirection = Direction.NOT_MOVING;
         this.moveSpeed = GAME_SPEED * CHARACTER_SPEED
-        this.isAutoAttacking = false
-        this.isAutoAttackCooldown = false
-        this.attackSpeed = CHARACTER_ATTACK_SPEED
-        this.attackWindup = CHARACTER_ATTACK_WINDUP
         this.isSpellAttackSpeedCooldown = false
         this.isSpellHealCooldown = false
 
@@ -81,86 +73,23 @@ export class Character extends MeshEntity {
         let flagFocus = false
         for(let i = 0; i < mobs.length; i++) {
             if(isClickOnMesh(this.target, mobs[i].mesh)){
-                this.focus = mobs[i]
+                this.autoAttackManager.focus = mobs[i]
                 flagFocus = true
                 break
             }
         }
         if(flagFocus == false) {
-            this.focus = null
+            this.autoAttackManager.focus = null
             this.onMove()
         } else if(this.moveDirection != Direction.AA) {
             this.moveDirection = Direction.AA
             this.move.set(0,0)
-            this.onAutoAttack()
+            this.autoAttackManager.onAutoAttack()
         }
-    }
-
-    public onAutoAttack() {
-        this.moveDirection = Direction.AA
-        this.move.set(0,0)
-        this.isAutoAttacking = true
-        
-        if(!this.isAutoAttackCooldown) {
-            this.startAutoAttack()
-        } else {
-            const intervalId = setInterval(() => {
-                if(!this.isAutoAttacking){
-                    clearInterval(intervalId)
-                }
-                if(!this.isAutoAttackCooldown){
-                    this.startAutoAttack()
-                    clearInterval(intervalId)
-                }
-            }, 10);            
-        }
-    }
-
-    public startAutoAttack() {
-        let windup = true
-        let count = 0;
-        const intervalId = setInterval(() => {
-            count++
-            if(!this.isAutoAttacking)
-                windup = false
-            if (count >= CHARACTER_ATTACK_WINDUP / 20) {
-                clearInterval(intervalId)
-            }
-        }, 20);
-
-        setTimeout(() => {
-            if(windup)
-                this.fireAutoAttack()
-        }, this.attackWindup)
-    }
-
-    public fireAutoAttack() {
-        let autoAttack = new AutoAttack(this.focus, this.current)
-        autoAttacks.push(autoAttack)
-        this.isAutoAttackCooldown = true
-
-        let stillAutoAttacking = true
-
-        let count = 0;
-        const intervalId = setInterval(() => {
-            count++
-            if(!this.isAutoAttacking) {
-                stillAutoAttacking = false
-            }
-            if (count >= CHARACTER_ATTACK_SPEED / 20) {
-                clearInterval(intervalId)
-            }
-        }, 20);
-
-        setTimeout(() => {
-            this.isAutoAttackCooldown = false
-            if(stillAutoAttacking)
-                this.onAutoAttack()
-        }, this.attackSpeed)
     }
 
     public onMove() {
-        this.isAutoAttacking = false
+        this.autoAttackManager.isAutoAttacking = false
         this.setDirection();
         updateMove(new THREE.Vector2(this.mesh.position.x, this.mesh.position.y), this.target, this.move, this.moveSpeed)
     }
@@ -208,7 +137,7 @@ export class Character extends MeshEntity {
         this.healthbar.updateHealthBar(-1)
         this.manabar.mana = this.manabar.maxMana
         this.manabar.updateManabar(0)
-        this.resetAutoattackState()
+        this.autoAttackManager.resetAutoAttackState()
         this.moveDirection = Direction.NOT_MOVING;
         clearInterval(this.spellHealCooldownDisplayInterval)
         clearInterval(this.spellAttackSpeedCooldownDisplayInterval)
@@ -218,21 +147,16 @@ export class Character extends MeshEntity {
         this.isSpellHealCooldown = false
     }
 
-    public resetAutoattackState() {
-        this.isAutoAttacking = false
-        this.isAutoAttackCooldown = false 
-    }
-
     public castSpellAttackSpeed() {
         if(!this.isSpellAttackSpeedCooldown && this.manabar.hasEnoughMana(SPELL_AS_MANA_COST)){
-            this.attackSpeed /= 2
-            this.attackWindup /= 2
+            this.autoAttackManager.attackSpeed /= 2
+            this.autoAttackManager.attackWindup /= 2
             this.isSpellAttackSpeedCooldown = true
             this.startAttackCooldownDisplay()
 
             setTimeout(() => {
-                this.attackSpeed *= 2
-                this.attackWindup *= 2 
+                this.autoAttackManager.attackSpeed *= 2
+                this.autoAttackManager.attackWindup *= 2 
             }, SPELL_AS_DURATION)
 
             setTimeout(() => {

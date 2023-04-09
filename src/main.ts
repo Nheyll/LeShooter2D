@@ -1,10 +1,10 @@
 import { SceneManager } from "./SceneManager";
 import { Mob } from "./entities/Mob"
-import { Character } from './entities/Character';
+import { Character } from './character/Character';
 import { Projectile } from './entities/Projectile';
 import { GameManager } from './GameManager';
 import { retryButtonLostElement, retryButtonWinElement, startGameButtonElement } from './utils/constants';
-import { AutoAttack } from './entities/AutoAttack';
+import { AutoAttack } from './character/AutoAttack';
 
 export let projectiles: Projectile[] = []
 export let mobs: Mob[] = []

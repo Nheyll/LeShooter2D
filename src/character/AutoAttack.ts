@@ -2,9 +2,9 @@ import THREE = require("three");
 import { v4 as uuidv4 } from 'uuid';
 import { autoAttacks, sceneManager } from "../main";
 import { buildMesh, isCollision, removeMesh, updateMove } from "../utils/entityUtils";
-import { Mob } from "./Mob";
+import { Mob } from "../entities/Mob";
 import { CHARACTER_AA_SPEED, GAME_SPEED } from "../utils/constants"
-import { MeshEntity } from "../MeshEntity";
+import { MeshEntity } from "../entities/MeshEntity";
 
 export class AutoAttack extends MeshEntity {
     public id: uuidv4

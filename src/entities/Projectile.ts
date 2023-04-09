@@ -1,10 +1,10 @@
 import { Vector2 } from 'three';
 import THREE = require('three');
 import { sceneManager, projectiles } from '../main';
-import { MeshEntity } from '../MeshEntity';
+import { MeshEntity } from './MeshEntity';
 import { GAME_SPEED, PROJECTILE_COLOR, PROJECTILE_SIZE, PROJECTILE_SPEED, RANGEMOB_DAMAGE } from '../utils/constants';
 import { isCollision, updateMove, removeMesh, isOutOfBound, buildMesh } from '../utils/entityUtils';
-import { Character } from './Character';
+import { Character } from '../character/Character';
 
 
 export class Projectile extends MeshEntity {

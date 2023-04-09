@@ -1,7 +1,7 @@
 import * as THREE from "three"
 import { sceneManager } from "../main"
 import { CHARACTER_MAX_MANA, CHARACTER_REGEN_MANA, MANABAR_COLOR, SCENE_HEIGHT } from "../utils/constants"
-import { MeshEntity } from "../MeshEntity"
+import { MeshEntity } from "../entities/MeshEntity"
 import { buildMesh } from "../utils/entityUtils"
 
 export class Manabar extends MeshEntity {

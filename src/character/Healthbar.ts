@@ -1,7 +1,7 @@
 import * as THREE from "three"
 import { sceneManager } from "../main"
 import { CHARACTER_MAX_HEALTH, HEALTHBAR_COLOR, SCENE_HEIGHT } from "../utils/constants"
-import { MeshEntity } from "../MeshEntity"
+import { MeshEntity } from "../entities/MeshEntity"
 import { buildMesh } from "../utils/entityUtils"
 
 export class Healthbar extends MeshEntity {
