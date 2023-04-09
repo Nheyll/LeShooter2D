@@ -1,14 +1,15 @@
 import { Direction } from "../utils/enums"
 import * as THREE from "three"
 import { autoAttacks, mobs, sceneManager, gameManager } from "../main"
-import { GAME_SPEED, CHARACTER_SPEED, CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP, CHARACTER_DAMAGE, SPELL_AS_COOLDOWN, SPELL_AS_DURATION, SPELL_AS_MANA_COST, CHARACTER_COLOR, SPELL_HEAL_MANA_COST, SPELL_HEAL_VALUE, SPELL_HEAL_COOLDOWN, HEALTHBAR_COLOR, SCENE_HEIGHT, RED_COLOR } from "../utils/constants"
-import { buildMesh, isClickOnMesh, updateMove, convertClickToTarget, isClickOnCanvas } from "../utils/entityUtils"
+import { GAME_SPEED, CHARACTER_SPEED, CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP, CHARACTER_DAMAGE, SPELL_AS_COOLDOWN, SPELL_AS_DURATION, SPELL_AS_MANA_COST, CHARACTER_COLOR, SPELL_HEAL_MANA_COST, SPELL_HEAL_VALUE, SPELL_HEAL_COOLDOWN, HEALTHBAR_COLOR, SCENE_HEIGHT, RED_COLOR, WHITE_COLOR } from "../utils/constants"
+import { buildMesh, isClickOnMesh, updateMove, convertClickToTarget, isClickOnCanvas, buildTextPromise } from "../utils/entityUtils"
 import { Healthbar } from "./Healthbar"
 import { Manabar } from "./Manabar"
 import { Mob } from "./Mob"
 import { AutoAttack } from "./AutoAttack"
 import { MeshEntity } from "../MeshEntity"
 import { Vector2 } from "three"
+import { removeMesh } from "../utils/entityUtils"
 
 export class Character extends MeshEntity {
     public move: THREE.Vector2
@@ -27,6 +28,10 @@ export class Character extends MeshEntity {
     public isSpellHealCooldown: boolean
     public spellHealMesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
     public spellAttackSpeedMesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
+    public spellHealCooldownDisplay: THREE.Mesh
+    public spellAttackSpeedCooldownDisplay: THREE.Mesh
+    public spellAttackSpeedCooldownDisplayInterval: NodeJS.Timer
+    public spellHealCooldownDisplayInterval: NodeJS.Timer
 
     constructor() {
         super(buildMesh(100, 100, CHARACTER_COLOR, new Vector2(-100, -100)))
@@ -57,13 +62,13 @@ export class Character extends MeshEntity {
 
         window.addEventListener('keydown', (event: KeyboardEvent) => {
             if (event.key === 'a' || event.key === 'q') {
-                this.castSpellAttackSpeed()
+                this.castSpellHeal()
             }
         });
 
         window.addEventListener('keydown', (event: KeyboardEvent) => {
             if (event.key === 'w' || event.key === 'z') {
-                this.castSpellHeal()
+                this.castSpellAttackSpeed()
             }
         });
     }
@@ -200,11 +205,17 @@ export class Character extends MeshEntity {
 
     public resetState() {
         this.healthbar.health = this.healthbar.maxHealth
-        this.healthbar.updateHealthBar(0)
+        this.healthbar.updateHealthBar(-1)
         this.manabar.mana = this.manabar.maxMana
         this.manabar.updateManabar(0)
         this.resetAutoattackState()
-        this.moveDirection = Direction.NOT_MOVING;     
+        this.moveDirection = Direction.NOT_MOVING;
+        clearInterval(this.spellHealCooldownDisplayInterval)
+        clearInterval(this.spellAttackSpeedCooldownDisplayInterval)
+        removeMesh(this.spellHealCooldownDisplay)
+        removeMesh(this.spellAttackSpeedCooldownDisplay)   
+        this.isSpellAttackSpeedCooldown = false
+        this.isSpellHealCooldown = false
     }
 
     public resetAutoattackState() {
@@ -217,7 +228,8 @@ export class Character extends MeshEntity {
             this.attackSpeed /= 2
             this.attackWindup /= 2
             this.isSpellAttackSpeedCooldown = true
-    
+            this.startAttackCooldownDisplay()
+
             setTimeout(() => {
                 this.attackSpeed *= 2
                 this.attackWindup *= 2 
@@ -239,9 +251,9 @@ export class Character extends MeshEntity {
         if(!this.isSpellHealCooldown && this.manabar.hasEnoughMana(SPELL_HEAL_MANA_COST) && this.healthbar.health < this.healthbar.maxHealth){
             this.healthbar.updateHealthBar(SPELL_HEAL_VALUE)
             this.manabar.updateManabar(-SPELL_HEAL_MANA_COST)
-
+            
             this.isSpellHealCooldown = true
-
+            this.startHealCooldownDisplay()
             setTimeout(() => {
                 this.isSpellHealCooldown = false
             }, SPELL_HEAL_COOLDOWN)
@@ -253,5 +265,43 @@ export class Character extends MeshEntity {
         } else if(this.healthbar.health = this.healthbar.maxHealth) {
             gameManager.writeTemporaryWarning("Already full life")
         }
+    }
+
+    public startHealCooldownDisplay() {
+        let cooldownLeft = SPELL_HEAL_COOLDOWN / 1000
+        
+        this.spellHealCooldownDisplayInterval = setInterval(() => {
+            cooldownLeft--
+            removeMesh(this.spellHealCooldownDisplay)
+            buildTextPromise(cooldownLeft.toString(), 30, new THREE.Vector2(-110, -SCENE_HEIGHT/2 + 170), WHITE_COLOR)
+                .then((mesh) => {
+                    this.spellHealCooldownDisplay = mesh
+                    sceneManager.scene.add(this.spellHealCooldownDisplay)
+                })
+        }, 1000)
+
+        setTimeout(() => {
+            removeMesh(this.spellHealCooldownDisplay)
+            clearInterval(this.spellHealCooldownDisplayInterval)
+        }, SPELL_HEAL_COOLDOWN + 500)
+    }
+
+    public startAttackCooldownDisplay() {
+        let cooldownLeft = SPELL_AS_COOLDOWN / 1000
+        
+        this.spellAttackSpeedCooldownDisplayInterval = setInterval(() => {
+            cooldownLeft--
+            removeMesh(this.spellAttackSpeedCooldownDisplay)
+            buildTextPromise(cooldownLeft.toString(), 30, new THREE.Vector2(90, -SCENE_HEIGHT/2 + 170), WHITE_COLOR)
+                .then((mesh) => {
+                    this.spellAttackSpeedCooldownDisplay = mesh
+                    sceneManager.scene.add(this.spellAttackSpeedCooldownDisplay)
+                })
+        }, 1000)
+
+        setTimeout(() => {
+            removeMesh(this.spellAttackSpeedCooldownDisplay)
+            clearInterval(this.spellAttackSpeedCooldownDisplayInterval)
+        }, SPELL_AS_COOLDOWN + 500)
     }
 }
