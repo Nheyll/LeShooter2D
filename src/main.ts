@@ -26,7 +26,7 @@ function animate() {
         autoAttack.checkCollision(i)
     })
 
-    character.updatePosition()
+    character.movementManager.updatePosition()
     mobs.forEach(m => {
         m.updatePosition()
         m.checkCollision()

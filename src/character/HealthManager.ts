@@ -4,7 +4,7 @@ import { CHARACTER_MAX_HEALTH, HEALTHBAR_COLOR, SCENE_HEIGHT } from "../utils/co
 import { MeshEntity } from "../entities/MeshEntity"
 import { buildMesh } from "../utils/entityUtils"
 
-export class Healthbar extends MeshEntity {
+export class HealthManager extends MeshEntity {
     public maxHealth:number
     public health:number
 
@@ -15,12 +15,17 @@ export class Healthbar extends MeshEntity {
         sceneManager.scene.add( this.mesh );
     }
 
-    public updateHealthBar(lifeDelta: number) {
+    public updateHealth(lifeDelta: number) {
         this.health += lifeDelta
 
         if(this.health > this.maxHealth) {
             this.health = this.maxHealth
         }
         this.mesh.scale.x = this.health / this.maxHealth
+    }
+
+    public resetHealthState() {
+        this.health = this.maxHealth
+        this.updateHealth(0)
     }
 }

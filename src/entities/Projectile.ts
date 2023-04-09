@@ -29,7 +29,7 @@ export class Projectile extends MeshEntity {
         if (isCollision(this.mesh, character.mesh)) {
             projectiles.splice(i, 1)
             removeMesh(this.mesh)
-            character.healthbar.updateHealthBar(-RANGEMOB_DAMAGE)
+            character.healthManager.updateHealth(-RANGEMOB_DAMAGE)
         }
     }
 

@@ -19,8 +19,8 @@ export class AutoAttackManager {
     }
 
     public onAutoAttack() {
-        character.moveDirection = Direction.AA
-        character.move.set(0,0)
+        character.movementManager.moveDirection = Direction.AA
+        character.movementManager.move.set(0,0)
         this.isAutoAttacking = true
         
         if(!this.isAutoAttackCooldown) {
@@ -57,7 +57,7 @@ export class AutoAttackManager {
     }
 
     public fireAutoAttack() {
-        let autoAttack = new AutoAttack(this.focus, character.current)
+        let autoAttack = new AutoAttack(this.focus, character.movementManager.current)
         autoAttacks.push(autoAttack)
         this.isAutoAttackCooldown = true
 

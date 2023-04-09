@@ -4,7 +4,7 @@ import { CHARACTER_MAX_MANA, CHARACTER_REGEN_MANA, MANABAR_COLOR, SCENE_HEIGHT }
 import { MeshEntity } from "../entities/MeshEntity"
 import { buildMesh } from "../utils/entityUtils"
 
-export class Manabar extends MeshEntity {
+export class ManaManager extends MeshEntity {
     public maxMana: number
     public mana: number
     public regenManaInterval: NodeJS.Timer
@@ -23,14 +23,14 @@ export class Manabar extends MeshEntity {
     public regenMana() {
         if (this.mana < this.maxMana) {
             if (this.mana + CHARACTER_REGEN_MANA <= this.maxMana) {
-                this.updateManabar(CHARACTER_REGEN_MANA)
+                this.updateMana(CHARACTER_REGEN_MANA)
             } else {
-                this.updateManabar(this.maxMana - this.mana)
+                this.updateMana(this.maxMana - this.mana)
             }
         }
     }
 
-    public updateManabar(manaDelta: number) {
+    public updateMana(manaDelta: number) {
         this.mana = this.mana + manaDelta
         this.mesh.scale.x = this.mana / this.maxMana
     }
@@ -40,5 +40,10 @@ export class Manabar extends MeshEntity {
             return true
         else
             return false
+    }
+
+    public resetManaState() {
+        this.mana = this.maxMana
+        this.updateMana(0)
     }
 }

@@ -41,7 +41,7 @@ export class GameManager {
                 this.onWin()
                 this.gameState = GameState.WON
                 clearInterval(this.checkGameStateInterval)
-            } else if (character.healthbar.health <= 0) {
+            } else if (character.healthManager.health <= 0) {
                 this.onLost()
                 this.gameState = GameState.LOST
                 clearInterval(this.checkGameStateInterval)

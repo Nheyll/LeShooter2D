@@ -15,7 +15,7 @@ export class MeleMob extends Mob {
             MELEMOB_MAX_HEALTH)
         this.isAutoAttackCooldown = false
         this.moveInterval = setInterval(() => {
-            updateMove(new THREE.Vector2(this.mesh.position.x, this.mesh.position.y), character.current, this.move, MELEMOB_SPEED)
+            updateMove(new THREE.Vector2(this.mesh.position.x, this.mesh.position.y), character.movementManager.current, this.move, MELEMOB_SPEED)
         }, 200);
 
     }
@@ -37,7 +37,7 @@ export class MeleMob extends Mob {
 
     public checkCollision() {
         if (isCollision(character.mesh, this.mesh) && !this.isAutoAttackCooldown) {
-            character.healthbar.updateHealthBar(-MELEMOB_DAMAGE)
+            character.healthManager.updateHealth(-MELEMOB_DAMAGE)
             this.isAutoAttackCooldown = true
             setTimeout(() => {
                 this.isAutoAttackCooldown = false
