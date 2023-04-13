@@ -1,7 +1,7 @@
 import THREE = require("three")
 import { GAME_SPEED, CHARACTER_SPEED } from "../utils/constants"
 import { Direction } from "../utils/enums"
-import { character } from "../main"
+import { character } from ".."
 import { updateMove } from "../utils/entityUtils"
 
 export class MovementManager {

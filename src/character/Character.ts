@@ -1,5 +1,5 @@
 import { Direction } from "../utils/enums"
-import { mobs, sceneManager } from "../main"
+import { mobs, sceneManager } from ".."
 import { CHARACTER_COLOR } from "../utils/constants"
 import { buildMesh, isClickOnMesh, updateMove, convertClickToTarget, isClickOnCanvas } from "../utils/entityUtils"
 import { HealthManager } from "./HealthManager"

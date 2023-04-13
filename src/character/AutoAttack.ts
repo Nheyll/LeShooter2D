@@ -1,6 +1,6 @@
 import THREE = require("three");
 import { v4 as uuidv4 } from 'uuid';
-import { autoAttacks, sceneManager } from "../main";
+import { autoAttacks, sceneManager } from "..";
 import { buildMesh, isCollision, removeMesh, updateMove } from "../utils/entityUtils";
 import { Mob } from "../entities/Mob";
 import { CHARACTER_AA_SPEED, GAME_SPEED } from "../utils/constants"

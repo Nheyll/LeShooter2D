@@ -1,5 +1,5 @@
 import THREE = require("three")
-import { character, gameManager, sceneManager } from "../main"
+import { character, gameManager, sceneManager } from ".."
 import { 
     HEALTHBAR_COLOR, 
     SCENE_HEIGHT, 

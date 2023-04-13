@@ -2,7 +2,7 @@ import THREE = require("three");
 import { MELEMOB_SIZE, MELEMOB_COLOR, HEALTHBAR_COLOR, MELEMOB_MAX_HEALTH, CHARACTER_DAMAGE, MELEMOB_DAMAGE, MELEMOB_ATTACK_SPEED, MELEMOB_SPEED } from "../utils/constants";
 import { buildMesh, isCollision, removeMesh, updateMove } from "../utils/entityUtils";
 import { Mob } from "./Mob";
-import { character, mobs } from "../main"
+import { character, mobs } from ".."
 
 export class MeleMob extends Mob {
 

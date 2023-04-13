@@ -1,7 +1,7 @@
 import * as THREE from "three"
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
-import { sceneManager } from "../main";
+import { sceneManager } from "..";
 import { SceneManager } from "../SceneManager";
 import { SCENE_HEIGHT, SCENE_WIDTH } from "./constants";
 
