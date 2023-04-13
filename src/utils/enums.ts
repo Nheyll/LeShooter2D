@@ -6,3 +6,9 @@ export enum Direction {
     NOT_MOVING = 'Stopped',
     AA = 'Auto-Attacking'
 };
+
+export enum GameState {
+    RUNNING = "Running",
+    LOST = "Lost",
+    WON = "Won"
+}
