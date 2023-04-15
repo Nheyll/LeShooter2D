@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "webpack": "webpack --watch",
+    "build watch": "webpack --watch",
+    "build": "webpack",
     "start": "http-server ./ -o -H 'Cache-Control: no-store'"
   },
   "keywords": [],
