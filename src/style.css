@@ -1,4 +1,4 @@
-* {
+ * {
     padding: 0;
     margin: 0;
 }
@@ -88,5 +88,5 @@ button {
 
 @font-face {
     font-family: 'ArcadeFont';
-    src: url('./assets/font/ARCADECLASSIC.TTF') format('truetype');
+    src: url('../assets/font/ARCADECLASSIC.TTF') format('truetype');
 }

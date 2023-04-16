@@ -5,6 +5,7 @@ import { Projectile } from './entities/Projectile';
 import { GameManager } from './GameManager';
 import { retryButtonLostElement, retryButtonWinElement, startGameButtonElement } from './utils/constants';
 import { AutoAttack } from './character/AutoAttack';
+import "./style.css";
 
 export let projectiles: Projectile[] = []
 export let mobs: Mob[] = []
