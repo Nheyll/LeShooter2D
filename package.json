@@ -6,7 +6,7 @@
   "scripts": {
     "build watch": "webpack --watch",
     "build": "webpack",
-    "start": "http-server ./ -o -H 'Cache-Control: no-store'"
+    "start": "http-server dist -o -H 'Cache-Control: no-store'"
   },
   "keywords": [],
   "author": "",
@@ -16,8 +16,6 @@
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
     "html-webpack-plugin": "^5.5.1",
-    "http-server": "^14.1.1",
-    "json-loader": "^0.5.7",
     "style-loader": "^3.3.2",
     "three": "^0.150.0",
     "ts-loader": "^9.4.2",
