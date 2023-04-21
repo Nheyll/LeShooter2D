@@ -17,7 +17,6 @@ export class GameManager {
 
     constructor(){
         this.gameState = GameState.RUNNING
-        this.audio = new Audio('../assets/audio/jul.mp3'); 
         this.waveDescriptionArray = waveArray
     }
 

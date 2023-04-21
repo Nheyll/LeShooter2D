@@ -106,7 +106,7 @@ export function buildTextPromise(text: string, size: number, position: THREE.Vec
     return new Promise((resolve, reject) => {
         const loader = new FontLoader();
 
-        loader.load('/assets/font/ArcadeClassic_Regular.json', function (font) {
+        loader.load('./ArcadeClassic_Regular.json', function (font) {
             const geometry = new TextGeometry(text, {
                 font: font,
                 size: size,
