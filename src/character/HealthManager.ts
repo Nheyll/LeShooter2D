@@ -1,5 +1,5 @@
 import * as THREE from "three"
-import { sceneManager } from "../main"
+import { sceneManager } from ".."
 import { CHARACTER_MAX_HEALTH, HEALTHBAR_COLOR, SCENE_HEIGHT } from "../utils/constants"
 import { MeshEntity } from "../entities/MeshEntity"
 import { buildMesh } from "../utils/entityUtils"

@@ -1,7 +1,7 @@
 import THREE = require("three");
 import { MeleMob } from "./entities/MeleMob";
 import { RangeMob } from "./entities/RangeMob";
-import { character, mobs, projectiles, sceneManager } from "./main";
+import { character, mobs, projectiles, sceneManager } from ".";
 import { container1Element, lostMenuElement, RED_COLOR, SCENE_HEIGHT, startMenuElement, TEMPORARY_MESSAGE_DURATION, waveArray, WaveDescription, WHITE_COLOR, winMenuElement } from "./utils/constants";
 import { buildTextPromise, removeMesh } from "./utils/entityUtils";
 import { GameState } from "./utils/enums";

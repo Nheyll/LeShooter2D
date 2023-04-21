@@ -1,6 +1,6 @@
 import { Mob } from "../entities/Mob"
 import { CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP } from "../utils/constants"
-import { autoAttacks, character } from "../main"
+import { autoAttacks, character } from ".."
 import { Direction } from "../utils/enums"
 import { AutoAttack } from "./AutoAttack"
 

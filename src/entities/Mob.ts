@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { character, mobs, sceneManager } from '../main';
+import { character, mobs, sceneManager } from '..';
 import { MeshEntity } from './MeshEntity';
 import { GAME_SPEED, RANGEMOB_SPEED, CHARACTER_DAMAGE } from '../utils/constants';
 import { isCollision, removeMesh } from '../utils/entityUtils';

@@ -1,6 +1,6 @@
 import { Vector2 } from "three";
 import THREE = require("three");
-import { character, mobs } from "../main";
+import { character, mobs } from "..";
 import { CHARACTER_DAMAGE, HEALTHBAR_COLOR, RANGEMOB_ATTACK_SPEED, RANGEMOB_COLOR, RANGEMOB_MAX_HEALTH, RANGEMOB_SIZE, SCENE_HEIGHT, SCENE_WIDTH } from "../utils/constants";
 import { buildMesh, removeMesh } from "../utils/entityUtils";
 import { Mob } from "./Mob";

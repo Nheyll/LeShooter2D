@@ -1,6 +1,6 @@
 import { Vector2 } from 'three';
 import THREE = require('three');
-import { sceneManager, projectiles } from '../main';
+import { sceneManager, projectiles } from '..';
 import { MeshEntity } from './MeshEntity';
 import { GAME_SPEED, PROJECTILE_COLOR, PROJECTILE_SIZE, PROJECTILE_SPEED, RANGEMOB_DAMAGE } from '../utils/constants';
 import { isCollision, updateMove, removeMesh, isOutOfBound, buildMesh } from '../utils/entityUtils';
