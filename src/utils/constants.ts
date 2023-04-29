@@ -61,4 +61,4 @@ export interface WaveDescription {
     waveId: number
     meleMobs: number
     rangeMobs: number
-}
+} 
