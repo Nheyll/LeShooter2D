@@ -5,6 +5,7 @@ import { CHARACTER_DAMAGE, HEALTHBAR_COLOR, RANGEMOB_ATTACK_SPEED, RANGEMOB_COLO
 import { buildMesh, removeMesh } from "../utils/entityUtils";
 import { Mob } from "./Mob";
 import { Projectile } from "./Projectile";
+import { RANGE_DIE, playAudio } from "../utils/audioUtils";
 
 export class RangeMob extends Mob {
     public fireInterval: NodeJS.Timer
@@ -44,6 +45,7 @@ export class RangeMob extends Mob {
     }
 
     public die() {
+        playAudio(RANGE_DIE)
         removeMesh(this.mesh)
         removeMesh(this.healthbar)
         clearInterval(this.fireInterval)

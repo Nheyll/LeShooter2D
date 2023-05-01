@@ -13,6 +13,7 @@ import {
     WHITE_COLOR 
 } from "../utils/constants"
 import { buildMesh, buildTextPromise, removeMesh } from "../utils/entityUtils"
+import { HEAL, SPELL_AS, playAudio } from "../utils/audioUtils"
 
 export class SpellManager {
     public isAttackSpeedCooldown: boolean
@@ -48,6 +49,7 @@ export class SpellManager {
     }
     public castSpellAttackSpeed() {
         if(!this.isAttackSpeedCooldown && character.manaManager.hasEnoughMana(SPELL_AS_MANA_COST)){
+            playAudio(SPELL_AS)
             character.autoAttackManager.attackSpeed /= 2
             character.autoAttackManager.attackWindup /= 2
             this.isAttackSpeedCooldown = true
@@ -72,9 +74,9 @@ export class SpellManager {
 
     public castSpellHeal() {
         if(!this.isHealCooldown && character.manaManager.hasEnoughMana(SPELL_HEAL_MANA_COST) && character.healthManager.health < character.healthManager.maxHealth){
+            playAudio(HEAL)
             character.healthManager.updateHealth(SPELL_HEAL_VALUE)
             character.manaManager.updateMana(-SPELL_HEAL_MANA_COST)
-            
             this.isHealCooldown = true
             this.starthealCooldownDisplay()
             setTimeout(() => {

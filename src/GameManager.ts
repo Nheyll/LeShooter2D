@@ -5,10 +5,10 @@ import { character, mobs, projectiles, sceneManager } from ".";
 import { container1Element, lostMenuElement, RED_COLOR, SCENE_HEIGHT, startMenuElement, TEMPORARY_MESSAGE_DURATION, waveArray, WaveDescription, WHITE_COLOR, winMenuElement } from "./utils/constants";
 import { buildTextPromise, removeMesh } from "./utils/entityUtils";
 import { GameState } from "./utils/enums";
+import { DARKNESS, WIN, playAudio } from "./utils/audioUtils";
 
 export class GameManager {
     public gameState: string
-    public audio: any
     public waveDescriptionArray: WaveDescription[]
     public waveCount: THREE.Mesh
     public warning: THREE.Mesh
@@ -67,11 +67,15 @@ export class GameManager {
     }
 
     public onLost() {
+        playAudio(DARKNESS)
+        this.resetGame()
         container1Element.classList.toggle('hide-element', true)
         lostMenuElement.classList.toggle('hide-element', false)
     }
 
     public onWin() {
+        playAudio(WIN)
+        this.resetGame()
         container1Element.classList.toggle('hide-element', true)
         winMenuElement.classList.toggle('hide-element', false)
     }

@@ -12,7 +12,7 @@ export const RANGEMOB_MAX_HEALTH = 1000
 export const RANGEMOB_SIZE = 100
 export const RANGEMOB_SPEED = 1;
 export const RANGEMOB_COLOR = "0xffff00"
-export const RANGEMOB_DAMAGE = 1
+export const RANGEMOB_DAMAGE = 100
 
 export const MELEMOB_ATTACK_SPEED = 1000
 export const MELEMOB_MAX_HEALTH = 1000
@@ -54,7 +54,7 @@ export const lostMenuElement = document.querySelector(".menu-lost")
 export const winMenuElement = document.querySelector(".menu-win")
 
 export const waveArray: WaveDescription[] = [
-    { waveId: 1, meleMobs: 0, rangeMobs: 1 },
+    { waveId: 1, meleMobs: 1, rangeMobs: 1 },
 ];
   
 export interface WaveDescription {

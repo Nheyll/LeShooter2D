@@ -11,7 +11,8 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         { from: "./assets/font/ArcadeClassic_Regular.json", to: "." },
-        { from: "./favicon.ico", to: "." }
+        { from: "./favicon.ico", to: "." },
+        { from: "./assets/audio/*", to: "." },
       ],
     }),
   ],

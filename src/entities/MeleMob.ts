@@ -3,6 +3,7 @@ import { MELEMOB_SIZE, MELEMOB_COLOR, HEALTHBAR_COLOR, MELEMOB_MAX_HEALTH, CHARA
 import { buildMesh, isCollision, removeMesh, updateMove } from "../utils/entityUtils";
 import { Mob } from "./Mob";
 import { character, mobs } from ".."
+import { AUDIO_BLOW5, MELE_DIE, playAudio } from "../utils/audioUtils";
 
 export class MeleMob extends Mob {
 
@@ -30,6 +31,7 @@ export class MeleMob extends Mob {
     }
 
     public die(){
+        playAudio(MELE_DIE)
         removeMesh(this.mesh)
         removeMesh(this.healthbar)
         clearInterval(this.moveInterval)
@@ -37,6 +39,7 @@ export class MeleMob extends Mob {
 
     public checkCollision() {
         if (isCollision(character.mesh, this.mesh) && !this.isAutoAttackCooldown) {
+            playAudio(AUDIO_BLOW5)
             character.healthManager.updateHealth(-MELEMOB_DAMAGE)
             this.isAutoAttackCooldown = true
             setTimeout(() => {

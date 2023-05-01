@@ -3,6 +3,7 @@ import { CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP } from "../utils/consta
 import { autoAttacks, character } from ".."
 import { Direction } from "../utils/enums"
 import { AutoAttack } from "./AutoAttack"
+import { playAudio, AUDIO_BOW1 } from "../utils/audioUtils"
 
 export class AutoAttackManager {
     public isAutoAttacking: boolean
@@ -51,7 +52,7 @@ export class AutoAttackManager {
         }, 20);
 
         setTimeout(() => {
-            if(windup)
+            if(windup && this.focus && this.focus.health > 0)
                 this.fireAutoAttack()
         }, this.attackWindup)
     }
