@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { container1Element, SCENE_HEIGHT, SCENE_WIDTH } from "./utils/constants";
+import { container1Element, SCENE_BACKGROUND, SCENE_HEIGHT, SCENE_WIDTH } from "./utils/constants";
 
 export class SceneManager {
     public scene: THREE.Scene;
@@ -17,6 +17,7 @@ export class SceneManager {
         this.scene = new THREE.Scene();
         this.setCamera()
         this.setRenderer()
+        this.setBackgroundImage()
         this.onResizeEventListener()
     }
 
@@ -56,6 +57,13 @@ export class SceneManager {
         });
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setSize(this.canvasWidth, this.canvasHeight)
+    }
+
+    public setBackgroundImage() {
+        const textureLoader = new THREE.TextureLoader();
+        textureLoader.load(SCENE_BACKGROUND, (texture) => {
+            this.scene.background = texture;
+        });
     }
 
     public onResizeEventListener() {

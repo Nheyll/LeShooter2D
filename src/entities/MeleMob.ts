@@ -1,6 +1,6 @@
 import THREE = require("three");
-import { MELEMOB_SIZE, MELEMOB_COLOR, HEALTHBAR_COLOR, MELEMOB_MAX_HEALTH, CHARACTER_DAMAGE, MELEMOB_DAMAGE, MELEMOB_ATTACK_SPEED, MELEMOB_SPEED } from "../utils/constants";
-import { buildMesh, isCollision, removeMesh, updateMove } from "../utils/entityUtils";
+import { MELEMOB_SIZE, MOB2_IMAGE, HEALTHBAR_COLOR, MELEMOB_MAX_HEALTH, CHARACTER_DAMAGE, MELEMOB_DAMAGE, MELEMOB_ATTACK_SPEED, MELEMOB_SPEED } from "../utils/constants";
+import { buildMesh, buildMeshWithImage, isCollision, removeMesh, updateMove } from "../utils/entityUtils";
 import { Mob } from "./Mob";
 import { character, mobs } from ".."
 import { AUDIO_BLOW5, MELE_DIE, playAudio } from "../utils/audioUtils";
@@ -11,7 +11,7 @@ export class MeleMob extends Mob {
     public moveInterval: NodeJS.Timer
 
     constructor(position: THREE.Vector2) {
-        super(buildMesh(MELEMOB_SIZE, MELEMOB_SIZE, MELEMOB_COLOR, new THREE.Vector2(position.x, position.y)),
+        super(buildMeshWithImage(MELEMOB_SIZE, MELEMOB_SIZE, MOB2_IMAGE, new THREE.Vector2(position.x, position.y)),
             buildMesh(MELEMOB_SIZE, 10, HEALTHBAR_COLOR, new THREE.Vector2(position.x, position.y + MELEMOB_SIZE / 2 + 20)),
             MELEMOB_MAX_HEALTH)
         this.isAutoAttackCooldown = false

@@ -1,8 +1,8 @@
 import THREE = require("three")
-import { GAME_SPEED, CHARACTER_SPEED } from "../utils/constants"
+import { GAME_SPEED, CHARACTER_SPEED, CHARACTER_RIGHT_IMAGE, CHARACTER_LEFT_IMAGE } from "../utils/constants"
 import { Direction } from "../utils/enums"
 import { character } from ".."
-import { updateMove } from "../utils/entityUtils"
+import { updateMove, updateTexture } from "../utils/entityUtils"
 
 export class MovementManager {
     public move: THREE.Vector2
@@ -26,6 +26,7 @@ export class MovementManager {
     }
 
     public setDirection() {
+        this.updateCharacterOrientation()
         if(this.target.x > this.current.x){
             if(this.target.y > this.current.y) {
                 this.moveDirection = Direction.NE;
@@ -38,6 +39,14 @@ export class MovementManager {
             }else{
                 this.moveDirection = Direction.SW;
             }
+        }
+    }
+
+    public updateCharacterOrientation() {
+        if(this.target.x > this.current.x){
+            updateTexture(character.mesh, CHARACTER_RIGHT_IMAGE)
+        } else {
+            updateTexture(character.mesh, CHARACTER_LEFT_IMAGE)
         }
     }
 

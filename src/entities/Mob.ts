@@ -1,9 +1,8 @@
 import * as THREE from 'three';
-import { character, mobs, sceneManager } from '..';
+import { mobs, sceneManager } from '..';
 import { MeshEntity } from './MeshEntity';
 import { GAME_SPEED, RANGEMOB_SPEED, CHARACTER_DAMAGE } from '../utils/constants';
-import { isCollision, removeMesh } from '../utils/entityUtils';
-import { MeleMob } from './MeleMob';
+import { removeMesh } from '../utils/entityUtils';
 
 export class Mob extends MeshEntity {
 

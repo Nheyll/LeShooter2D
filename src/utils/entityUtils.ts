@@ -78,6 +78,17 @@ export function buildMesh(width: number, height: number, colorString: string, po
     return mesh
 }
 
+export function buildMeshWithImage(width: number, height: number, imageUrl: string, position: THREE.Vector2) {
+    const loader = new THREE.TextureLoader();
+    const texture = loader.load(imageUrl);
+    const geometry = new THREE.PlaneGeometry(width, height, 1, 1);
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.position.x = position.x;
+    mesh.position.y = position.y;
+    return mesh;
+}
+
 export function convertClickToTarget(mouseEvent: MouseEvent, sceneManager: SceneManager) {
     let click = new THREE.Vector2(mouseEvent.clientX, mouseEvent.clientY)
     let target = new THREE.Vector2()
@@ -123,4 +134,11 @@ export function buildTextPromise(text: string, size: number, position: THREE.Vec
             resolve(mesh);
         }, undefined, reject);
     });
+}
+
+export function updateTexture(mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>, urlTexture: string) {
+    const loader = new THREE.TextureLoader();
+    const texture = loader.load(urlTexture);
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+    mesh.material = material
 }

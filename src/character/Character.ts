@@ -1,7 +1,7 @@
 import { Direction } from "../utils/enums"
 import { mobs, sceneManager } from ".."
-import { CHARACTER_COLOR } from "../utils/constants"
-import { buildMesh, isClickOnMesh, updateMove, convertClickToTarget, isClickOnCanvas } from "../utils/entityUtils"
+import { CHARACTER_RIGHT_IMAGE } from "../utils/constants"
+import { isClickOnMesh, convertClickToTarget, isClickOnCanvas, buildMeshWithImage } from "../utils/entityUtils"
 import { HealthManager } from "./HealthManager"
 import { ManaManager } from "./ManaManager"
 import { MeshEntity } from "../entities/MeshEntity"
@@ -18,7 +18,7 @@ export class Character extends MeshEntity {
     public manaManager: ManaManager
 
     constructor() {
-        super(buildMesh(100, 100, CHARACTER_COLOR, new Vector2(-100, -100)))
+        super(buildMeshWithImage(100, 100, CHARACTER_RIGHT_IMAGE, new Vector2(-100, -100)))
         this.autoAttackManager = new AutoAttackManager()
         this.spellManager = new SpellManager()
         this.healthManager = new HealthManager()

@@ -13,6 +13,7 @@ module.exports = {
         { from: "./assets/font/ArcadeClassic_Regular.json", to: "." },
         { from: "./favicon.ico", to: "." },
         { from: "./assets/audio/*", to: "." },
+        { from: "./assets/texture/*", to: "." },
       ],
     }),
   ],

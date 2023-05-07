@@ -40,6 +40,7 @@ export class AutoAttackManager {
     }
 
     public startAutoAttack() {
+        character.movementManager.updateCharacterOrientation()
         let windup = true
         let count = 0;
         const intervalId = setInterval(() => {

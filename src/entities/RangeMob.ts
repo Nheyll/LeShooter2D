@@ -1,8 +1,8 @@
 import { Vector2 } from "three";
 import THREE = require("three");
 import { character, mobs } from "..";
-import { CHARACTER_DAMAGE, HEALTHBAR_COLOR, RANGEMOB_ATTACK_SPEED, RANGEMOB_COLOR, RANGEMOB_MAX_HEALTH, RANGEMOB_SIZE, SCENE_HEIGHT, SCENE_WIDTH } from "../utils/constants";
-import { buildMesh, removeMesh } from "../utils/entityUtils";
+import { CHARACTER_DAMAGE, HEALTHBAR_COLOR, RANGEMOB_ATTACK_SPEED, MOB1_IMAGE, RANGEMOB_MAX_HEALTH, RANGEMOB_SIZE, SCENE_HEIGHT, SCENE_WIDTH } from "../utils/constants";
+import { buildMesh, buildMeshWithImage, removeMesh } from "../utils/entityUtils";
 import { Mob } from "./Mob";
 import { Projectile } from "./Projectile";
 import { RANGE_DIE, playAudio } from "../utils/audioUtils";
@@ -12,7 +12,7 @@ export class RangeMob extends Mob {
     public moveInterval: NodeJS.Timer
 
     constructor(position: THREE.Vector2) {
-        super(buildMesh(RANGEMOB_SIZE, RANGEMOB_SIZE, RANGEMOB_COLOR, new THREE.Vector2(position.x, position.y)),
+        super(buildMeshWithImage(RANGEMOB_SIZE, RANGEMOB_SIZE, MOB1_IMAGE, new THREE.Vector2(position.x, position.y)),
             buildMesh(RANGEMOB_SIZE, 10, HEALTHBAR_COLOR, new THREE.Vector2(position.x, position.y + RANGEMOB_SIZE / 2 + 20)),
             RANGEMOB_MAX_HEALTH)
 
