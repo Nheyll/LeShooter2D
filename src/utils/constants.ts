@@ -10,13 +10,13 @@ export const RANGEMOB_ATTACK_SPEED = 2000 //ms
 export const RANGEMOB_MAX_HEALTH = 1000
 export const RANGEMOB_SIZE = 100
 export const RANGEMOB_SPEED = 1;
-export const RANGEMOB_DAMAGE = 100
+export const RANGEMOB_DAMAGE = 50
 
 export const MELEMOB_ATTACK_SPEED = 1000
 export const MELEMOB_MAX_HEALTH = 1000
 export const MELEMOB_SIZE = 125
 export const MELEMOB_SPEED = 1;
-export const MELEMOB_DAMAGE = 100
+export const MELEMOB_DAMAGE = 50
 
 export const CHARACTER_SPEED = 4;
 export const CHARACTER_ATTACK_SPEED = 500
@@ -48,14 +48,6 @@ export const PROJECTILE_COLOR = "0xFFFF00"
 export const AUTOATTACK_COLOR = "0xFF0000"
 
 export const TEMPORARY_MESSAGE_DURATION = 2000
-
-export const container1Element = document.querySelector(".container1") as HTMLElement
-export const startGameButtonElement = document.querySelector(".start-game-button")
-export const retryButtonLostElement = document.querySelector(".retry-button-lost")
-export const retryButtonWinElement = document.querySelector(".retry-button-win")
-export const startMenuElement = document.querySelector(".menu-start")
-export const lostMenuElement = document.querySelector(".menu-lost")
-export const winMenuElement = document.querySelector(".menu-win")
 
 export const waveArray: WaveDescription[] = [
     { waveId: 1, meleMobs: 0, rangeMobs: 1 },
