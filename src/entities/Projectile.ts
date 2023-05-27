@@ -1,6 +1,6 @@
 import { Vector2 } from 'three';
 import THREE = require('three');
-import { sceneManager, projectiles } from '..';
+import { sceneManager, projectiles, gameManager } from '..';
 import { MeshEntity } from './MeshEntity';
 import { GAME_SPEED, PROJECTILE_COLOR, PROJECTILE_SIZE, PROJECTILE_SPEED, RANGEMOB_DAMAGE } from '../utils/constants';
 import { isCollision, updateMove, removeMesh, isOutOfBound, buildMesh } from '../utils/entityUtils';
@@ -32,7 +32,7 @@ export class Projectile extends MeshEntity {
             playAudio(AUDIO_BLOW2)
             projectiles.splice(i, 1)
             removeMesh(this.mesh)
-            character.healthManager.updateHealth(-RANGEMOB_DAMAGE)
+            character.healthManager.updateHealth(-RANGEMOB_DAMAGE * gameManager.difficultyMultiplier)
         }
     }
 

@@ -16,7 +16,11 @@ export class HealthManager extends MeshEntity {
     }
 
     public updateHealth(lifeDelta: number) {
-        this.health += lifeDelta
+        if(this.health + lifeDelta < 0) {
+            this.health = 0
+        } else {
+            this.health += lifeDelta
+        }
 
         if(this.health > this.maxHealth) {
             this.health = this.maxHealth

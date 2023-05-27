@@ -10,13 +10,13 @@ export const RANGEMOB_ATTACK_SPEED = 2000 //ms
 export const RANGEMOB_MAX_HEALTH = 1000
 export const RANGEMOB_SIZE = 100
 export const RANGEMOB_SPEED = 1;
-export const RANGEMOB_DAMAGE = 100
+export const RANGEMOB_DAMAGE = 50
 
 export const MELEMOB_ATTACK_SPEED = 1000
 export const MELEMOB_MAX_HEALTH = 1000
 export const MELEMOB_SIZE = 125
 export const MELEMOB_SPEED = 1;
-export const MELEMOB_DAMAGE = 100
+export const MELEMOB_DAMAGE = 50
 
 export const CHARACTER_SPEED = 4;
 export const CHARACTER_ATTACK_SPEED = 500
@@ -49,42 +49,12 @@ export const AUTOATTACK_COLOR = "0xFF0000"
 
 export const TEMPORARY_MESSAGE_DURATION = 2000
 
-export const container1Element = document.querySelector(".container1") as HTMLElement
-export const startGameButtonElement = document.querySelector(".start-game-button")
-export const retryButtonLostElement = document.querySelector(".retry-button-lost")
-export const retryButtonWinElement = document.querySelector(".retry-button-win")
-export const startMenuElement = document.querySelector(".menu-start")
-export const lostMenuElement = document.querySelector(".menu-lost")
-export const winMenuElement = document.querySelector(".menu-win")
-
 export const waveArray: WaveDescription[] = [
-    { waveId: 1, meleMobs: 0, rangeMobs: 1 },
-    { waveId: 2, meleMobs: 1, rangeMobs: 1 },
-    { waveId: 3, meleMobs: 1, rangeMobs: 2 },
-    { waveId: 4, meleMobs: 2, rangeMobs: 2 },
-    { waveId: 5, meleMobs: 2, rangeMobs: 3 },
-    { waveId: 6, meleMobs: 3, rangeMobs: 3 },
-    { waveId: 7, meleMobs: 3, rangeMobs: 4 },
-    { waveId: 8, meleMobs: 4, rangeMobs: 4 },
-    { waveId: 9, meleMobs: 0, rangeMobs: 6 },
-    { waveId: 10, meleMobs: 0, rangeMobs: 8 },
-    { waveId: 11, meleMobs: 0, rangeMobs: 10 },
-    { waveId: 12, meleMobs: 5, rangeMobs: 0 },
-    { waveId: 13, meleMobs: 7, rangeMobs: 0 },
-    { waveId: 14, meleMobs: 9, rangeMobs: 0 },
-    { waveId: 15, meleMobs: 4, rangeMobs: 5 },
-    { waveId: 16, meleMobs: 5, rangeMobs: 5 },
-    { waveId: 17, meleMobs: 5, rangeMobs: 6 },
-    { waveId: 18, meleMobs: 6, rangeMobs: 6 },
-    { waveId: 19, meleMobs: 6, rangeMobs: 7 },
-    { waveId: 20, meleMobs: 7, rangeMobs: 7 },
-    { waveId: 21, meleMobs: 7, rangeMobs: 8 },
-    { waveId: 22, meleMobs: 8, rangeMobs: 8 },
-    { waveId: 23, meleMobs: 8, rangeMobs: 9 },
-    { waveId: 24, meleMobs: 9, rangeMobs: 9 },
-    { waveId: 25, meleMobs: 9, rangeMobs: 10 },
-    { waveId: 26, meleMobs: 10, rangeMobs: 10 },
-
+    { waveId: 1, meleMobs: 1, rangeMobs: 0 },
+    { waveId: 1, meleMobs: 3, rangeMobs: 2 },
+    { waveId: 1, meleMobs: 5, rangeMobs: 4 },
+    { waveId: 1, meleMobs: 7, rangeMobs: 6 },
+    { waveId: 1, meleMobs: 9, rangeMobs: 8 },
 ];
   
 export interface WaveDescription {

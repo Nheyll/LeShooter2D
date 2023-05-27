@@ -3,7 +3,6 @@ import { Mob } from "./entities/Mob"
 import { Character } from './character/Character';
 import { Projectile } from './entities/Projectile';
 import { GameManager } from './GameManager';
-import { retryButtonLostElement, retryButtonWinElement, startGameButtonElement } from './utils/constants';
 import { AutoAttack } from './character/AutoAttack';
 import "./style.css";
 
@@ -37,16 +36,3 @@ function animate() {
 }
 animate()
 
-/****************************************** MENU ************************************************/
-
-startGameButtonElement?.addEventListener('click', () => {
-    gameManager.runGame()
-})
-
-retryButtonWinElement?.addEventListener('click', () => {
-    gameManager.runGame()
-})
-
-retryButtonLostElement?.addEventListener('click', () => {
-    gameManager.runGame()
-})

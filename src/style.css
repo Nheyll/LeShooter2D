@@ -41,7 +41,7 @@ html {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: black;
+    background-image: url('../assets/texture/scene-background.png');
 }
 
 @keyframes blink {
@@ -61,30 +61,49 @@ button {
     background-color: #000000;
     cursor: pointer;
     font-size: 5em;
+    padding: 0.1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+
 }
 
-.start-game-button {
+.center {
+    text-align: center;
+}
+
+.arrow-back {
+    width: 10em;
+    cursor: pointer;
+    margin: 1em 1em;
+}
+
+.controls {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    left: 25%;
+    top: 20%;
+    width: 50%;
+    background-color: #000000;
+    text-align: center;
+    font-size: 3em;
 }
 
 .result {
     font-size: 5em;
-    position: absolute;
-    left: 50%;
-    top: 20%;
-    transform: translate(-50%, -50%);
 }
 
-.retry-button-lost, .retry-button-win{
-    position: absolute;
-    left: 50%;
-    top: 40%;
-    transform: translate(-50%, -50%);
+h1 {
+    font-size: 10em;
+    margin-top: 1em;
 }
 
+.difficulties {
+    font-size: 5em;
+}
+
+.difficulty {
+    font-size: 0.5em;
+    margin-right: 10%;
+}
 
 @font-face {
     font-family: 'ArcadeFont';

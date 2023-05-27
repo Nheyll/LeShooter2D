@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import { container1Element, SCENE_BACKGROUND, SCENE_HEIGHT, SCENE_WIDTH } from "./utils/constants";
+import { SCENE_BACKGROUND, SCENE_HEIGHT, SCENE_WIDTH } from "./utils/constants";
+import { container1Element } from './utils/querySelectors';
 
 export class SceneManager {
     public scene: THREE.Scene;

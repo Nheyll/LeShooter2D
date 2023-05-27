@@ -14,6 +14,7 @@ module.exports = {
         { from: "./favicon.ico", to: "." },
         { from: "./assets/audio/*", to: "." },
         { from: "./assets/texture/*", to: "." },
+        { from: "./assets/image/*", to: "." },
       ],
     }),
   ],
