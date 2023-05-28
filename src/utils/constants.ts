@@ -28,11 +28,13 @@ export const CHARACTER_MAX_MANA = 1000
 export const CHARACTER_REGEN_MANA = 20 // By second
 
 export const SPELL_AS_MANA_COST = 300
-export const SPELL_AS_COOLDOWN = 10000
+export const SPELL_AS_COOLDOWN = 9000
 export const SPELL_AS_DURATION = 5000
 export const SPELL_HEAL_MANA_COST = 300
 export const SPELL_HEAL_VALUE = 200
-export const SPELL_HEAL_COOLDOWN = 10000
+export const SPELL_HEAL_COOLDOWN = 9000
+export const SPELL_TELEPORT_MANA_COST = 300
+export const SPELL_TELEPORT_COOLDOWN = 9000
 
 export const CHARACTER_RIGHT_IMAGE = "./assets/texture/character-right.png"
 export const CHARACTER_LEFT_IMAGE = "./assets/texture/character-left.png"
@@ -44,6 +46,7 @@ export const HEALTHBAR_COLOR = "0x7CFC00";
 export const MANABAR_COLOR = "0x0080FF";
 export const WHITE_COLOR = "0xFFFFFF"
 export const RED_COLOR = "0xFF0000"
+export const TELEPORT_COLOR = "0xA600A1"
 export const PROJECTILE_COLOR = "0xFFFF00"
 export const AUTOATTACK_COLOR = "0xFF0000"
 

@@ -9,6 +9,7 @@ export const MELE_DIE = "./assets/audio/MeleDie.wav"
 export const RANGE_DIE = "./assets/audio/RangeDie.wav"
 export const SPELL_AS = "./assets/audio/SpellAS.wav"
 export const WIN = "./assets/audio/Success.wav"
+export const TELEPORT = "./assets/audio/Teleport.wav"
 
 
 export function playAudio(path: string) {

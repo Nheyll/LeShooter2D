@@ -66,10 +66,14 @@ export class MovementManager {
             character.mesh.position.x = this.current.x;
             character.mesh.position.y = this.current.y;
         } else {
-            this.current.set(this.target.x, this.target.y);
-            character.mesh.position.x = this.target.x;
-            character.mesh.position.y = this.target.y;
+            this.teleportCharacter()
         }
+    }
+
+    public teleportCharacter() {
+        this.current.set(this.target.x, this.target.y);
+        character.mesh.position.x = this.target.x;
+        character.mesh.position.y = this.target.y;
     }
 
     public resetMovementState() {

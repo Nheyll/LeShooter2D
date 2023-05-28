@@ -18,7 +18,7 @@ export class GameManager {
     public difficultyMultiplier: number
 
     constructor(){
-        this.gameState = GameState.RUNNING
+        this.gameState = GameState.MENU
         this.waveDescriptionArray = waveArray
         
         easyButtonElement?.addEventListener('click', () => {
@@ -71,15 +71,19 @@ export class GameManager {
         startMenuElement.classList.toggle('hide-element', true)
         lostMenuElement.classList.toggle('hide-element', true)
         winMenuElement.classList.toggle('hide-element', true)
-        this.resetGame()
-        this.startWaves()
+        setTimeout(() => {
+            this.gameState = GameState.RUNNING
+            this.resetGame()
+            this.checkGameState()
+        }, 50)
     }
     
-    public startWaves() {
+    public checkGameState() {
         this.gameState = GameState.RUNNING
         let indexWave = 0;
         this.checkGameStateInterval = setInterval(() => {
             if(mobs.length == 0 && this.waveDescriptionArray.length >= indexWave+1) {
+                this.resetGame()
                 this.startWave(this.waveDescriptionArray[indexWave])
                 indexWave++
             } else if (mobs.length == 0 && this.waveDescriptionArray.length < indexWave+1) {
