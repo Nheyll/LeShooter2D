@@ -17,7 +17,8 @@ import {
     AOE_COLOR,
     SPELL_AOE_MANA_COST,
     SPELL_AOE_COOLDOWN,
-    CHARACTER_DAMAGE
+    CHARACTER_DAMAGE,
+    SPELL_AOE_DAMAGE
 } from "../utils/constants"
 import { buildMesh, buildTextPromise, convertClickToTarget, isClickOnMesh, removeMesh } from "../utils/entityUtils"
 import { AOE, HEAL, SPELL_AS, TELEPORT, playAudio } from "../utils/audioUtils"
@@ -196,7 +197,7 @@ export class SpellManager {
             }, 50)
             mobs.forEach(m => {
                 if(isClickOnMesh(new THREE.Vector2(m.mesh.position.x, m.mesh.position.y), this.aoeSpellMesh))
-                    m.takeDamage()
+                    m.takeDamage(SPELL_AOE_DAMAGE)
             })
 
             this.isAoeCooldown = true

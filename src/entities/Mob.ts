@@ -32,8 +32,8 @@ export class Mob extends MeshEntity {
         this.healthbar.position.y += this.move.y
     }
 
-    public takeDamage() {
-        this.health -= CHARACTER_DAMAGE
+    public takeDamage(value: number) {
+        this.health -= value
         this.healthbar.scale.x = this.health / this.maxHealth
         if (this.health <= 0) {
             removeMesh(this.mesh)

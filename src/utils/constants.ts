@@ -37,6 +37,7 @@ export const SPELL_TELEPORT_MANA_COST = 300
 export const SPELL_TELEPORT_COOLDOWN = 5000
 export const SPELL_AOE_MANA_COST = 300
 export const SPELL_AOE_COOLDOWN = 8000
+export const SPELL_AOE_DAMAGE = 900
 
 export const CHARACTER_RIGHT_IMAGE = "./assets/texture/character-right.png"
 export const CHARACTER_LEFT_IMAGE = "./assets/texture/character-left.png"

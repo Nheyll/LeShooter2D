@@ -35,8 +35,8 @@ export class RangeMob extends Mob {
         new Projectile(new Vector2(this.mesh.position.x, this.mesh.position.y), character.movementManager.current)
     }
 
-    public takeDamage() {
-        this.health -= CHARACTER_DAMAGE
+    public takeDamage(value: number) {
+        this.health -= value
         this.healthbar.scale.x = this.health / this.maxHealth
         if (this.health <= 0) {
             character.movementManager.resetMovementState()
