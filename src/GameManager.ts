@@ -6,7 +6,7 @@ import { RED_COLOR, SCENE_HEIGHT, TEMPORARY_MESSAGE_DURATION, waveArray, WaveDes
 import { buildTextPromise, removeMesh } from "./utils/entityUtils";
 import { GameState } from "./utils/enums";
 import { DARKNESS, WIN, playAudio } from "./utils/audioUtils";
-import { arrowBackElement, backMenuLostElement, backMenuWinElement, container1Element, controlsButtonElement, controlsMenuElement, easyButtonElement, hardButtonElement, impossibleButtonElement, lostMenuElement, mediumButtonElement, retryButtonLostElement, retryButtonWinElement, startMenuElement, winMenuElement } from "./utils/querySelectors";
+import { arrowBackElement, backMenuLostElement, backMenuWinElement, container1Element, controlsButtonElement, controlsMenuElement, easyButtonElement, githubElement, hardButtonElement, impossibleButtonElement, lostMenuElement, mediumButtonElement, retryButtonLostElement, retryButtonWinElement, startMenuElement, winMenuElement } from "./utils/querySelectors";
 
 export class GameManager {
     public gameState: string
@@ -63,6 +63,10 @@ export class GameManager {
 
         backMenuLostElement?.addEventListener('click', () => {
             this.returnToStartMenu()
+        })
+
+        githubElement?.addEventListener('click', () => {
+            window.open("https://github.com/Nheyll/LeShooter2D")
         })
     }
 

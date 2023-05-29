@@ -9,6 +9,7 @@ export const winMenuElement = document.querySelector(".menu-win")
 export const controlsMenuElement = document.querySelector(".menu-controls")
 export const backMenuLostElement = document.querySelector(".back-menu-lost")
 export const backMenuWinElement = document.querySelector(".back-menu-win")
+export const githubElement = document.querySelector(".github")
 
 export const easyButtonElement = document.querySelector(".easy")
 export const mediumButtonElement = document.querySelector(".medium")

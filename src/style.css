@@ -105,6 +105,11 @@ h1 {
     margin-right: 10%;
 }
 
+.github {
+    margin-top: 5em;
+    font-size: 2em;
+}
+
 @font-face {
     font-family: 'ArcadeFont';
     src: url('../assets/font/ARCADECLASSIC.TTF') format('truetype');
