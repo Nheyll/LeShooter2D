@@ -3,7 +3,7 @@ export const SCENE_HEIGHT = 900
 
 export const GAME_SPEED = 2;
 
-export const PROJECTILE_SPEED = 8;
+export const PROJECTILE_SPEED = 6;
 export const PROJECTILE_SIZE = 30
 
 export const RANGEMOB_ATTACK_SPEED = 2000 //ms
@@ -18,14 +18,14 @@ export const MELEMOB_SIZE = 125
 export const MELEMOB_SPEED = 1;
 export const MELEMOB_DAMAGE = 50
 
-export const CHARACTER_SPEED = 4;
+export const CHARACTER_SPEED = 5;
 export const CHARACTER_ATTACK_SPEED = 500
 export const CHARACTER_ATTACK_WINDUP = 200
 export const CHARACTER_DAMAGE = 300
 export const CHARACTER_AA_SPEED = 10 // Velocity of the AA
 export const CHARACTER_MAX_HEALTH = 1000
 export const CHARACTER_MAX_MANA = 1000
-export const CHARACTER_REGEN_MANA = 20 // By second
+export const CHARACTER_REGEN_MANA = 60 // By second
 
 export const SPELL_AS_MANA_COST = 300
 export const SPELL_AS_COOLDOWN = 9000
@@ -34,7 +34,9 @@ export const SPELL_HEAL_MANA_COST = 300
 export const SPELL_HEAL_VALUE = 200
 export const SPELL_HEAL_COOLDOWN = 9000
 export const SPELL_TELEPORT_MANA_COST = 300
-export const SPELL_TELEPORT_COOLDOWN = 9000
+export const SPELL_TELEPORT_COOLDOWN = 5000
+export const SPELL_AOE_MANA_COST = 300
+export const SPELL_AOE_COOLDOWN = 8000
 
 export const CHARACTER_RIGHT_IMAGE = "./assets/texture/character-right.png"
 export const CHARACTER_LEFT_IMAGE = "./assets/texture/character-left.png"
@@ -49,37 +51,25 @@ export const RED_COLOR = "0xFF0000"
 export const TELEPORT_COLOR = "0xA600A1"
 export const PROJECTILE_COLOR = "0xFFFF00"
 export const AUTOATTACK_COLOR = "0xFF0000"
+export const AOE_COLOR = "0x6666FF"
 
 export const TEMPORARY_MESSAGE_DURATION = 2000
 
 export const waveArray: WaveDescription[] = [
-    { waveId: 1, meleMobs: 0, rangeMobs: 1 },
-    { waveId: 2, meleMobs: 1, rangeMobs: 1 },
-    { waveId: 3, meleMobs: 1, rangeMobs: 2 },
-    { waveId: 4, meleMobs: 2, rangeMobs: 2 },
-    { waveId: 5, meleMobs: 2, rangeMobs: 3 },
-    { waveId: 6, meleMobs: 3, rangeMobs: 3 },
-    { waveId: 7, meleMobs: 3, rangeMobs: 4 },
-    { waveId: 8, meleMobs: 4, rangeMobs: 4 },
-    { waveId: 9, meleMobs: 0, rangeMobs: 6 },
-    { waveId: 10, meleMobs: 0, rangeMobs: 8 },
-    { waveId: 11, meleMobs: 0, rangeMobs: 10 },
-    { waveId: 12, meleMobs: 5, rangeMobs: 0 },
-    { waveId: 13, meleMobs: 7, rangeMobs: 0 },
-    { waveId: 14, meleMobs: 9, rangeMobs: 0 },
-    { waveId: 15, meleMobs: 4, rangeMobs: 5 },
-    { waveId: 16, meleMobs: 5, rangeMobs: 5 },
-    { waveId: 17, meleMobs: 5, rangeMobs: 6 },
-    { waveId: 18, meleMobs: 6, rangeMobs: 6 },
-    { waveId: 19, meleMobs: 6, rangeMobs: 7 },
-    { waveId: 20, meleMobs: 7, rangeMobs: 7 },
-    { waveId: 21, meleMobs: 7, rangeMobs: 8 },
-    { waveId: 22, meleMobs: 8, rangeMobs: 8 },
-    { waveId: 23, meleMobs: 8, rangeMobs: 9 },
-    { waveId: 24, meleMobs: 9, rangeMobs: 9 },
-    { waveId: 25, meleMobs: 9, rangeMobs: 10 },
-    { waveId: 26, meleMobs: 10, rangeMobs: 10 },
-
+    { waveId: 1, meleMobs: 1, rangeMobs: 0 },
+    { waveId: 2, meleMobs: 0, rangeMobs: 1 },
+    { waveId: 3, meleMobs: 0, rangeMobs: 3 },
+    { waveId: 4, meleMobs: 2, rangeMobs: 3 },
+    { waveId: 5, meleMobs: 5, rangeMobs: 3 },
+    { waveId: 6, meleMobs: 0, rangeMobs: 5 },
+    { waveId: 7, meleMobs: 0, rangeMobs: 7 },
+    { waveId: 8, meleMobs: 0, rangeMobs: 9 },
+    { waveId: 9, meleMobs: 10, rangeMobs: 0 },
+    { waveId: 10, meleMobs: 60, rangeMobs: 0 },
+    { waveId: 11, meleMobs: 5, rangeMobs: 9 },
+    { waveId: 12, meleMobs: 0, rangeMobs: 12 },
+    { waveId: 13, meleMobs: 5, rangeMobs: 12 },
+    { waveId: 14, meleMobs: 12, rangeMobs: 12 },
 ];
   
 export interface WaveDescription {

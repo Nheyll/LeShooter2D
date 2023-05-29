@@ -36,7 +36,7 @@ export class Character extends MeshEntity {
         if(!isClickOnCanvas(event)){
             return
         }
-        this.movementManager.target = convertClickToTarget(event, sceneManager);
+        this.movementManager.target = convertClickToTarget(new Vector2(event.clientX, event.clientY), sceneManager);
         let flagFocus = false
         for(let i = 0; i < mobs.length; i++) {
             if(isClickOnMesh(this.movementManager.target, mobs[i].mesh)){

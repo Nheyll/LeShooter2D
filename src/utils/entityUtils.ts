@@ -89,13 +89,12 @@ export function buildMeshWithImage(width: number, height: number, imageUrl: stri
     return mesh;
 }
 
-export function convertClickToTarget(mouseEvent: MouseEvent, sceneManager: SceneManager) {
-    let click = new THREE.Vector2(mouseEvent.clientX, mouseEvent.clientY)
+export function convertClickToTarget(cursorPosition: THREE.Vector2, sceneManager: SceneManager) {
     let target = new THREE.Vector2()
-    click.x -= sceneManager.marginLeft
-    click.y -= sceneManager.marginTop
-    target.x = click.x * SCENE_WIDTH / sceneManager.canvasWidth - SCENE_WIDTH / 2
-    target.y = -click.y * SCENE_HEIGHT / sceneManager.canvasHeight + SCENE_HEIGHT / 2
+    cursorPosition.x -= sceneManager.marginLeft
+    cursorPosition.y -= sceneManager.marginTop
+    target.x = cursorPosition.x * SCENE_WIDTH / sceneManager.canvasWidth - SCENE_WIDTH / 2
+    target.y = -cursorPosition.y * SCENE_HEIGHT / sceneManager.canvasHeight + SCENE_HEIGHT / 2
     return target
 }
 
