@@ -8,6 +8,7 @@ export enum Direction {
 };
 
 export enum GameState {
+    MENU = "Menu",
     RUNNING = "Running",
     LOST = "Lost",
     WON = "Won"

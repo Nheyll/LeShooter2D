@@ -1,9 +1,8 @@
 import * as THREE from 'three';
-import { character, mobs, sceneManager } from '../main';
+import { mobs, sceneManager } from '..';
 import { MeshEntity } from './MeshEntity';
 import { GAME_SPEED, RANGEMOB_SPEED, CHARACTER_DAMAGE } from '../utils/constants';
-import { isCollision, removeMesh } from '../utils/entityUtils';
-import { MeleMob } from './MeleMob';
+import { removeMesh } from '../utils/entityUtils';
 
 export class Mob extends MeshEntity {
 
@@ -33,8 +32,8 @@ export class Mob extends MeshEntity {
         this.healthbar.position.y += this.move.y
     }
 
-    public takeDamage() {
-        this.health -= CHARACTER_DAMAGE
+    public takeDamage(value: number) {
+        this.health -= value
         this.healthbar.scale.x = this.health / this.maxHealth
         if (this.health <= 0) {
             removeMesh(this.mesh)

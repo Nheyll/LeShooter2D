@@ -1,24 +1,73 @@
 import THREE = require("three");
 import { MeleMob } from "./entities/MeleMob";
 import { RangeMob } from "./entities/RangeMob";
-import { character, mobs, projectiles, sceneManager } from "./main";
-import { container1Element, lostMenuElement, RED_COLOR, SCENE_HEIGHT, startMenuElement, TEMPORARY_MESSAGE_DURATION, waveArray, WaveDescription, WHITE_COLOR, winMenuElement } from "./utils/constants";
+import { character, mobs, projectiles, sceneManager } from ".";
+import { RED_COLOR, SCENE_HEIGHT, TEMPORARY_MESSAGE_DURATION, waveArray, WaveDescription, WHITE_COLOR } from "./utils/constants";
 import { buildTextPromise, removeMesh } from "./utils/entityUtils";
 import { GameState } from "./utils/enums";
+import { DARKNESS, WIN, playAudio } from "./utils/audioUtils";
+import { arrowBackElement, backMenuLostElement, backMenuWinElement, container1Element, controlsButtonElement, controlsMenuElement, easyButtonElement, githubElement, hardButtonElement, impossibleButtonElement, lostMenuElement, mediumButtonElement, retryButtonLostElement, retryButtonWinElement, startMenuElement, winMenuElement } from "./utils/querySelectors";
 
 export class GameManager {
     public gameState: string
-    public audio: any
     public waveDescriptionArray: WaveDescription[]
     public waveCount: THREE.Mesh
     public warning: THREE.Mesh
     public warningTimeout: NodeJS.Timeout
     public checkGameStateInterval: NodeJS.Timer
+    public difficultyMultiplier: number
 
     constructor(){
-        this.gameState = GameState.RUNNING
-        this.audio = new Audio('../assets/audio/jul.mp3'); 
+        this.gameState = GameState.MENU
         this.waveDescriptionArray = waveArray
+        
+        easyButtonElement?.addEventListener('click', () => {
+            this.difficultyMultiplier = 1
+            this.runGame()
+        })
+
+        mediumButtonElement?.addEventListener('click', () => {
+            this.difficultyMultiplier = 2
+            this.runGame()
+        })
+
+        hardButtonElement?.addEventListener('click', () => {
+            this.difficultyMultiplier = 4
+            this.runGame()
+        })
+
+        impossibleButtonElement?.addEventListener('click', () => {
+            this.difficultyMultiplier = 100
+            this.runGame()
+        })
+
+        retryButtonWinElement?.addEventListener('click', () => {
+            this.runGame()
+        })
+        
+        retryButtonLostElement?.addEventListener('click', () => {
+            this.runGame()
+        })
+        
+        controlsButtonElement?.addEventListener('click', () => {
+            this.showControls()
+        })
+
+        arrowBackElement?.addEventListener('click', () => {
+            this.returnToStartMenu()
+        })
+
+        backMenuWinElement?.addEventListener('click', () => {
+            this.returnToStartMenu()
+        })
+
+        backMenuLostElement?.addEventListener('click', () => {
+            this.returnToStartMenu()
+        })
+
+        githubElement?.addEventListener('click', () => {
+            window.open("https://github.com/Nheyll/LeShooter2D")
+        })
     }
 
     public runGame() {
@@ -26,15 +75,19 @@ export class GameManager {
         startMenuElement.classList.toggle('hide-element', true)
         lostMenuElement.classList.toggle('hide-element', true)
         winMenuElement.classList.toggle('hide-element', true)
-        this.resetGame()
-        this.startWaves()
+        setTimeout(() => {
+            this.gameState = GameState.RUNNING
+            this.resetGame()
+            this.checkGameState()
+        }, 50)
     }
     
-    public startWaves() {
+    public checkGameState() {
         this.gameState = GameState.RUNNING
         let indexWave = 0;
         this.checkGameStateInterval = setInterval(() => {
             if(mobs.length == 0 && this.waveDescriptionArray.length >= indexWave+1) {
+                this.resetGame()
                 this.startWave(this.waveDescriptionArray[indexWave])
                 indexWave++
             } else if (mobs.length == 0 && this.waveDescriptionArray.length < indexWave+1) {
@@ -68,11 +121,15 @@ export class GameManager {
     }
 
     public onLost() {
+        playAudio(DARKNESS)
+        this.resetGame()
         container1Element.classList.toggle('hide-element', true)
         lostMenuElement.classList.toggle('hide-element', false)
     }
 
     public onWin() {
+        playAudio(WIN)
+        this.resetGame()
         container1Element.classList.toggle('hide-element', true)
         winMenuElement.classList.toggle('hide-element', false)
     }
@@ -88,6 +145,18 @@ export class GameManager {
         })
         projectiles.length = 0
         character.resetState()
+    }
+
+    public showControls() {
+        startMenuElement.classList.toggle('hide-element', true)
+        controlsMenuElement.classList.toggle('hide-element', false)
+    }
+
+    public returnToStartMenu() {
+        startMenuElement.classList.toggle('hide-element', false)
+        lostMenuElement.classList.toggle('hide-element', true)
+        winMenuElement.classList.toggle('hide-element', true)
+        controlsMenuElement.classList.toggle('hide-element', true)
     }
 
     public writeTemporaryWarning(text: string) {

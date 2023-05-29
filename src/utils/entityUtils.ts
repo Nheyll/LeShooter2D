@@ -1,7 +1,7 @@
 import * as THREE from "three"
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
-import { sceneManager } from "../main";
+import { sceneManager } from "..";
 import { SceneManager } from "../SceneManager";
 import { SCENE_HEIGHT, SCENE_WIDTH } from "./constants";
 
@@ -78,13 +78,23 @@ export function buildMesh(width: number, height: number, colorString: string, po
     return mesh
 }
 
-export function convertClickToTarget(mouseEvent: MouseEvent, sceneManager: SceneManager) {
-    let click = new THREE.Vector2(mouseEvent.clientX, mouseEvent.clientY)
+export function buildMeshWithImage(width: number, height: number, imageUrl: string, position: THREE.Vector2) {
+    const loader = new THREE.TextureLoader();
+    const texture = loader.load(imageUrl);
+    const geometry = new THREE.PlaneGeometry(width, height, 1, 1);
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.position.x = position.x;
+    mesh.position.y = position.y;
+    return mesh;
+}
+
+export function convertClickToTarget(cursorPosition: THREE.Vector2, sceneManager: SceneManager) {
     let target = new THREE.Vector2()
-    click.x -= sceneManager.marginLeft
-    click.y -= sceneManager.marginTop
-    target.x = click.x * SCENE_WIDTH / sceneManager.canvasWidth - SCENE_WIDTH / 2
-    target.y = -click.y * SCENE_HEIGHT / sceneManager.canvasHeight + SCENE_HEIGHT / 2
+    cursorPosition.x -= sceneManager.marginLeft
+    cursorPosition.y -= sceneManager.marginTop
+    target.x = cursorPosition.x * SCENE_WIDTH / sceneManager.canvasWidth - SCENE_WIDTH / 2
+    target.y = -cursorPosition.y * SCENE_HEIGHT / sceneManager.canvasHeight + SCENE_HEIGHT / 2
     return target
 }
 
@@ -106,7 +116,7 @@ export function buildTextPromise(text: string, size: number, position: THREE.Vec
     return new Promise((resolve, reject) => {
         const loader = new FontLoader();
 
-        loader.load('/assets/font/ArcadeClassic_Regular.json', function (font) {
+        loader.load('./ArcadeClassic_Regular.json', function (font) {
             const geometry = new TextGeometry(text, {
                 font: font,
                 size: size,
@@ -123,4 +133,11 @@ export function buildTextPromise(text: string, size: number, position: THREE.Vec
             resolve(mesh);
         }, undefined, reject);
     });
+}
+
+export function updateTexture(mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>, urlTexture: string) {
+    const loader = new THREE.TextureLoader();
+    const texture = loader.load(urlTexture);
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+    mesh.material = material
 }

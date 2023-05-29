@@ -1,7 +1,7 @@
 import { Direction } from "../utils/enums"
-import { mobs, sceneManager } from "../main"
-import { CHARACTER_COLOR } from "../utils/constants"
-import { buildMesh, isClickOnMesh, updateMove, convertClickToTarget, isClickOnCanvas } from "../utils/entityUtils"
+import { mobs, sceneManager } from ".."
+import { CHARACTER_RIGHT_IMAGE } from "../utils/constants"
+import { isClickOnMesh, convertClickToTarget, isClickOnCanvas, buildMeshWithImage } from "../utils/entityUtils"
 import { HealthManager } from "./HealthManager"
 import { ManaManager } from "./ManaManager"
 import { MeshEntity } from "../entities/MeshEntity"
@@ -18,7 +18,7 @@ export class Character extends MeshEntity {
     public manaManager: ManaManager
 
     constructor() {
-        super(buildMesh(100, 100, CHARACTER_COLOR, new Vector2(-100, -100)))
+        super(buildMeshWithImage(100, 100, CHARACTER_RIGHT_IMAGE, new Vector2(-100, -100)))
         this.autoAttackManager = new AutoAttackManager()
         this.spellManager = new SpellManager()
         this.healthManager = new HealthManager()
@@ -36,7 +36,7 @@ export class Character extends MeshEntity {
         if(!isClickOnCanvas(event)){
             return
         }
-        this.movementManager.target = convertClickToTarget(event, sceneManager);
+        this.movementManager.target = convertClickToTarget(new Vector2(event.clientX, event.clientY), sceneManager);
         let flagFocus = false
         for(let i = 0; i < mobs.length; i++) {
             if(isClickOnMesh(this.movementManager.target, mobs[i].mesh)){

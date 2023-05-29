@@ -1,10 +1,11 @@
 import THREE = require("three");
 import { v4 as uuidv4 } from 'uuid';
-import { autoAttacks, sceneManager } from "../main";
+import { autoAttacks, character, sceneManager } from "..";
 import { buildMesh, isCollision, removeMesh, updateMove } from "../utils/entityUtils";
 import { Mob } from "../entities/Mob";
-import { CHARACTER_AA_SPEED, GAME_SPEED } from "../utils/constants"
+import { AUTOATTACK_COLOR, CHARACTER_AA_SPEED, CHARACTER_DAMAGE, GAME_SPEED } from "../utils/constants"
 import { MeshEntity } from "../entities/MeshEntity";
+import { AUDIO_BLOW1, AUDIO_BOW1, playAudio } from "../utils/audioUtils";
 
 export class AutoAttack extends MeshEntity {
     public id: uuidv4
@@ -13,7 +14,8 @@ export class AutoAttack extends MeshEntity {
     public moveSpeed: number
 
     constructor(mob: Mob, source:THREE.Vector2) {
-        super(buildMesh(30,30,"0x9933FF", new THREE.Vector2(source.x, source.y)))
+        super(buildMesh(30,30,AUTOATTACK_COLOR, new THREE.Vector2(source.x, source.y)))
+        playAudio(AUDIO_BOW1)
         this.id = uuidv4();
         this.target = mob
         this.moveSpeed = CHARACTER_AA_SPEED * GAME_SPEED
@@ -25,7 +27,8 @@ export class AutoAttack extends MeshEntity {
         if(isCollision(this.mesh, this.target.mesh)) {
                 autoAttacks.splice(i, 1)
                 removeMesh(this.mesh)
-                this.target.takeDamage()
+                this.target.takeDamage(CHARACTER_DAMAGE)
+                playAudio(AUDIO_BLOW1)
         }
     }
     
@@ -35,6 +38,7 @@ export class AutoAttack extends MeshEntity {
             this.mesh.position.x += this.move.x
             this.mesh.position.y += this.move.y
         } else {
+            character.movementManager.resetMovementState()
             removeMesh(this.mesh)
             autoAttacks.splice(autoAttacks.findIndex(obj => obj.id === this.id), 1)
         }

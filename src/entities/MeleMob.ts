@@ -1,8 +1,10 @@
 import THREE = require("three");
-import { MELEMOB_SIZE, MELEMOB_COLOR, HEALTHBAR_COLOR, MELEMOB_MAX_HEALTH, CHARACTER_DAMAGE, MELEMOB_DAMAGE, MELEMOB_ATTACK_SPEED, MELEMOB_SPEED } from "../utils/constants";
-import { buildMesh, isCollision, removeMesh, updateMove } from "../utils/entityUtils";
+import { MELEMOB_SIZE, MOB2_IMAGE, HEALTHBAR_COLOR, MELEMOB_MAX_HEALTH, CHARACTER_DAMAGE, MELEMOB_DAMAGE, MELEMOB_ATTACK_SPEED, MELEMOB_SPEED } from "../utils/constants";
+import { buildMesh, buildMeshWithImage, isCollision, removeMesh, updateMove } from "../utils/entityUtils";
 import { Mob } from "./Mob";
-import { character, mobs } from "../main"
+import { character, gameManager, mobs } from ".."
+import { AUDIO_BLOW5, MELE_DIE, playAudio } from "../utils/audioUtils";
+import { Direction } from "../utils/enums";
 
 export class MeleMob extends Mob {
 
@@ -10,26 +12,33 @@ export class MeleMob extends Mob {
     public moveInterval: NodeJS.Timer
 
     constructor(position: THREE.Vector2) {
-        super(buildMesh(MELEMOB_SIZE, MELEMOB_SIZE, MELEMOB_COLOR, new THREE.Vector2(position.x, position.y)),
+        super(buildMeshWithImage(MELEMOB_SIZE, MELEMOB_SIZE, MOB2_IMAGE, new THREE.Vector2(position.x, position.y)),
             buildMesh(MELEMOB_SIZE, 10, HEALTHBAR_COLOR, new THREE.Vector2(position.x, position.y + MELEMOB_SIZE / 2 + 20)),
             MELEMOB_MAX_HEALTH)
-        this.isAutoAttackCooldown = false
+            
+        this.isAutoAttackCooldown = true
+
+        setTimeout(() => {
+            this.isAutoAttackCooldown = false
+        }, 2000)
         this.moveInterval = setInterval(() => {
             updateMove(new THREE.Vector2(this.mesh.position.x, this.mesh.position.y), character.movementManager.current, this.move, MELEMOB_SPEED)
         }, 200);
 
     }
 
-    public takeDamage() {
-        this.health -= CHARACTER_DAMAGE
+    public takeDamage(value: number) {
+        this.health -= value
         this.healthbar.scale.x = this.health / this.maxHealth
         if (this.health <= 0) {
+            character.movementManager.resetMovementState()
             this.die()
             mobs.splice(mobs.indexOf(this), 1)
         }
     }
 
     public die(){
+        playAudio(MELE_DIE)
         removeMesh(this.mesh)
         removeMesh(this.healthbar)
         clearInterval(this.moveInterval)
@@ -37,7 +46,8 @@ export class MeleMob extends Mob {
 
     public checkCollision() {
         if (isCollision(character.mesh, this.mesh) && !this.isAutoAttackCooldown) {
-            character.healthManager.updateHealth(-MELEMOB_DAMAGE)
+            playAudio(AUDIO_BLOW5)
+            character.healthManager.updateHealth(-MELEMOB_DAMAGE * gameManager.difficultyMultiplier)
             this.isAutoAttackCooldown = true
             setTimeout(() => {
                 this.isAutoAttackCooldown = false

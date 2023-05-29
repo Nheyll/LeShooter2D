@@ -1,5 +1,5 @@
 import * as THREE from "three"
-import { sceneManager } from "../main"
+import { sceneManager } from ".."
 import { CHARACTER_MAX_HEALTH, HEALTHBAR_COLOR, SCENE_HEIGHT } from "../utils/constants"
 import { MeshEntity } from "../entities/MeshEntity"
 import { buildMesh } from "../utils/entityUtils"
@@ -16,7 +16,11 @@ export class HealthManager extends MeshEntity {
     }
 
     public updateHealth(lifeDelta: number) {
-        this.health += lifeDelta
+        if(this.health + lifeDelta < 0) {
+            this.health = 0
+        } else {
+            this.health += lifeDelta
+        }
 
         if(this.health > this.maxHealth) {
             this.health = this.maxHealth

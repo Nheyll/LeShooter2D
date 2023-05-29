@@ -1,8 +1,9 @@
 import { Mob } from "../entities/Mob"
 import { CHARACTER_ATTACK_SPEED, CHARACTER_ATTACK_WINDUP } from "../utils/constants"
-import { autoAttacks, character } from "../main"
+import { autoAttacks, character } from ".."
 import { Direction } from "../utils/enums"
 import { AutoAttack } from "./AutoAttack"
+import { playAudio, AUDIO_BOW1 } from "../utils/audioUtils"
 
 export class AutoAttackManager {
     public isAutoAttacking: boolean
@@ -39,6 +40,7 @@ export class AutoAttackManager {
     }
 
     public startAutoAttack() {
+        character.movementManager.updateCharacterOrientation()
         let windup = true
         let count = 0;
         const intervalId = setInterval(() => {
@@ -51,7 +53,7 @@ export class AutoAttackManager {
         }, 20);
 
         setTimeout(() => {
-            if(windup)
+            if(windup && this.focus && this.focus.health > 0)
                 this.fireAutoAttack()
         }, this.attackWindup)
     }
@@ -76,7 +78,7 @@ export class AutoAttackManager {
 
         setTimeout(() => {
             this.isAutoAttackCooldown = false
-            if(stillAutoAttacking)
+            if(stillAutoAttacking && this.focus.health > 0)
                 this.onAutoAttack()
         }, this.attackSpeed)
     }
