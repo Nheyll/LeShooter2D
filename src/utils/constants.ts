@@ -10,13 +10,13 @@ export const RANGEMOB_ATTACK_SPEED = 2000 //ms
 export const RANGEMOB_MAX_HEALTH = 1000
 export const RANGEMOB_SIZE = 100
 export const RANGEMOB_SPEED = 1;
-export const RANGEMOB_DAMAGE = 50
+export const RANGEMOB_DAMAGE = 30
 
 export const MELEMOB_ATTACK_SPEED = 1000
 export const MELEMOB_MAX_HEALTH = 1000
 export const MELEMOB_SIZE = 125
 export const MELEMOB_SPEED = 1;
-export const MELEMOB_DAMAGE = 50
+export const MELEMOB_DAMAGE = 30
 
 export const CHARACTER_SPEED = 5;
 export const CHARACTER_ATTACK_SPEED = 500
@@ -56,8 +56,8 @@ export const AOE_COLOR = "0x6666FF"
 export const TEMPORARY_MESSAGE_DURATION = 2000
 
 export const waveArray: WaveDescription[] = [
-    { waveId: 1, meleMobs: 1, rangeMobs: 0 },
-    { waveId: 2, meleMobs: 0, rangeMobs: 1 },
+    { waveId: 1, meleMobs: 2, rangeMobs: 0 },
+    { waveId: 2, meleMobs: 0, rangeMobs: 2 },
     { waveId: 3, meleMobs: 0, rangeMobs: 3 },
     { waveId: 4, meleMobs: 2, rangeMobs: 3 },
     { waveId: 5, meleMobs: 5, rangeMobs: 3 },

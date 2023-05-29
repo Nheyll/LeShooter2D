@@ -4,6 +4,7 @@ import { buildMesh, buildMeshWithImage, isCollision, removeMesh, updateMove } fr
 import { Mob } from "./Mob";
 import { character, gameManager, mobs } from ".."
 import { AUDIO_BLOW5, MELE_DIE, playAudio } from "../utils/audioUtils";
+import { Direction } from "../utils/enums";
 
 export class MeleMob extends Mob {
 
@@ -30,6 +31,7 @@ export class MeleMob extends Mob {
         this.health -= CHARACTER_DAMAGE
         this.healthbar.scale.x = this.health / this.maxHealth
         if (this.health <= 0) {
+            character.movementManager.resetMovementState()
             this.die()
             mobs.splice(mobs.indexOf(this), 1)
         }

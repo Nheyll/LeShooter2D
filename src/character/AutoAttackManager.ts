@@ -78,7 +78,7 @@ export class AutoAttackManager {
 
         setTimeout(() => {
             this.isAutoAttackCooldown = false
-            if(stillAutoAttacking)
+            if(stillAutoAttacking && this.focus.health > 0)
                 this.onAutoAttack()
         }, this.attackSpeed)
     }

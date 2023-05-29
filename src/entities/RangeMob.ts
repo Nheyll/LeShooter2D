@@ -39,6 +39,7 @@ export class RangeMob extends Mob {
         this.health -= CHARACTER_DAMAGE
         this.healthbar.scale.x = this.health / this.maxHealth
         if (this.health <= 0) {
+            character.movementManager.resetMovementState()
             this.die()
             mobs.splice(mobs.indexOf(this), 1)
         }

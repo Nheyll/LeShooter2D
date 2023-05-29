@@ -78,5 +78,7 @@ export class MovementManager {
 
     public resetMovementState() {
         this.moveDirection = Direction.NOT_MOVING;
+        this.target = this.current
+        this.teleportCharacter()
     }
 }

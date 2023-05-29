@@ -1,9 +1,9 @@
 import THREE = require("three");
 import { v4 as uuidv4 } from 'uuid';
-import { autoAttacks, sceneManager } from "..";
+import { autoAttacks, character, sceneManager } from "..";
 import { buildMesh, isCollision, removeMesh, updateMove } from "../utils/entityUtils";
 import { Mob } from "../entities/Mob";
-import { AUTOATTACK_COLOR, CHARACTER_AA_SPEED, GAME_SPEED } from "../utils/constants"
+import { AUTOATTACK_COLOR, CHARACTER_AA_SPEED, CHARACTER_DAMAGE, GAME_SPEED } from "../utils/constants"
 import { MeshEntity } from "../entities/MeshEntity";
 import { AUDIO_BLOW1, AUDIO_BOW1, playAudio } from "../utils/audioUtils";
 
@@ -38,6 +38,7 @@ export class AutoAttack extends MeshEntity {
             this.mesh.position.x += this.move.x
             this.mesh.position.y += this.move.y
         } else {
+            character.movementManager.resetMovementState()
             removeMesh(this.mesh)
             autoAttacks.splice(autoAttacks.findIndex(obj => obj.id === this.id), 1)
         }
