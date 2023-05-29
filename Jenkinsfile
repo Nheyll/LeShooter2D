@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        FTP_CREDENTIALS = credentials('hostinger-ftp-nicolasrossato')
+        FTP_CREDENTIALS = credentials('hostinger-ftp-leshooter2d')
         FTP_HOST = "nicolasrossato.com"
     }
     stages {
